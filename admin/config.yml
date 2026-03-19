@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: REPLACE_WITH_YOUR_GITHUB_NAME/mjss-site
+  repo: katanagoya489-crypto/mjss-site
   branch: main
 
 media_folder: "images/uploads"
