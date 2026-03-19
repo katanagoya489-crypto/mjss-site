@@ -1,0 +1,111 @@
+media:
+  input: images/uploads
+  output: /images/uploads
+
+content:
+  - name: site
+    label: サイト共通
+    type: file
+    path: data/site.json
+    fields:
+      - name: site_name
+        label: サイト名
+        type: string
+      - name: hero_title
+        label: トップ見出し
+        type: string
+      - name: hero_lead
+        label: トップ説明文
+        type: text
+      - name: announcement
+        label: お知らせ
+        type: text
+
+  - name: next_performers
+    label: 次回参加者
+    type: file
+    path: data/next-performers.json
+    fields:
+      - name: items
+        label: 次回参加者一覧
+        type: object
+        list: true
+        fields:
+          - name: name
+            label: 名前
+            type: string
+          - name: tags
+            label: タグ
+            type: string
+            list: true
+          - name: description
+            label: 紹介文
+            type: text
+          - name: image
+            label: 立ち絵画像
+            type: image
+          - name: x_url
+            label: Xリンク
+            type: string
+          - name: media_url
+            label: 媒体リンク
+            type: string
+
+  - name: past_performers
+    label: 過去参加者
+    type: file
+    path: data/past-performers.json
+    fields:
+      - name: items
+        label: 過去参加者一覧
+        type: object
+        list: true
+        fields:
+          - name: name
+            label: 名前
+            type: string
+          - name: tags
+            label: タグ
+            type: string
+            list: true
+          - name: description
+            label: 紹介文
+            type: text
+          - name: image
+            label: 立ち絵画像
+            type: image
+          - name: x_url
+            label: Xリンク
+            type: string
+          - name: media_url
+            label: 媒体リンク
+            type: string
+
+  - name: creators
+    label: クリエイター
+    type: file
+    path: data/creators.json
+    fields:
+      - name: items
+        label: クリエイター一覧
+        type: object
+        list: true
+        fields:
+          - name: name
+            label: 名前
+            type: string
+          - name: role
+            label: 担当分野
+            type: string
+          - name: description
+            label: 紹介文
+            type: text
+          - name: image
+            label: 作品画像
+            type: image
+          - name: x_url
+            label: Xリンク
+            type: string
+          - name: portfolio_url
+            label: ポートフォリオ
+            type: string
