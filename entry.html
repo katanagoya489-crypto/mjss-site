@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>MJSS | 参加フォーム</title><link rel="stylesheet" href="css/style.css" /></head>
+<body>
+<header class="topbar"><div class="container topbar-inner"><a class="brand" href="index.html">MJSS</a><nav class="nav"><a href="index.html">ホーム</a><a href="concept.html">ライブ理念</a><a href="rules.html">お願い</a><a class="active" href="entry.html">参加フォーム</a><a href="next-performers.html">次回参加者</a><a href="past-performers.html">過去参加者</a><a href="creators.html">クリエイター</a><a href="works.html">仕事依頼</a></nav></div></header>
+<main>
+<section class="page-hero"><div class="container"><div class="section-card card"><div class="kicker">Entry</div><h1>参加フォーム</h1><p class="lead">出演希望・観覧希望・クリエイター参加・お問い合わせの入口です。今は骨組みだけですが、そのままRailwayで動かせるフォームになっています。</p></div></div></section>
+<section><div class="container grid-2"><article class="form-card"><form id="entryForm"><label>お名前 / 活動名<input type="text" name="name" placeholder="例：活動名" required></label><label>Xアカウント<input type="text" name="xAccount" placeholder="例：@example"></label><label>区分<select name="category"><option value="">選択してください</option><option>出演希望</option><option>観覧希望</option><option>クリエイター参加</option><option>お問い合わせ</option></select></label><label>メッセージ<textarea name="message" placeholder="ここに内容を書きます"></textarea></label><button class="btn btn-primary" type="submit">送信する</button><div class="status" id="formStatus"></div></form></article><article class="info-card"><h3>このページの使い道</h3><ul class="list"><li>仮の見た目確認</li><li>今後のDiscord通知連携</li><li>問い合わせ導線の統一</li><li>将来的なチケット案内導線</li></ul><p class="muted">Railwayの環境変数 <strong>DISCORD_WEBHOOK_URL</strong> を入れるとDiscord通知も動きます。</p></article></div></section>
+</main><footer><div class="container"><p>© MJSS</p></div></footer>
+<script>
+const form = document.getElementById('entryForm');
+const statusEl = document.getElementById('formStatus');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  statusEl.textContent = '送信中…';
+  const payload = Object.fromEntries(new FormData(form).entries());
+  try {
+    const res = await fetch('/api/apply', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok) throw new Error(data.message || '送信失敗');
+    statusEl.textContent = data.message || '送信できました。';
+    form.reset();
+  } catch (err) {
+    statusEl.textContent = '送信失敗: ' + err.message;
+  }
+});
+</script>
+</body></html>
