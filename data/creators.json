@@ -1,0 +1,31 @@
+{
+  "items": [
+    {
+      "name": "クリエイターA",
+      "tag1": "Illustration",
+      "tag2": "Design",
+      "description": "担当分野や強みを書く場所です。",
+      "image": "",
+      "x_url": "#",
+      "portfolio_url": "#"
+    },
+    {
+      "name": "クリエイターB",
+      "tag1": "Music",
+      "tag2": "Mix",
+      "description": "担当分野や強みを書く場所です。",
+      "image": "",
+      "x_url": "#",
+      "portfolio_url": "#"
+    },
+    {
+      "name": "クリエイターC",
+      "tag1": "Movie",
+      "tag2": "Web",
+      "description": "担当分野や強みを書く場所です。",
+      "image": "",
+      "x_url": "#",
+      "portfolio_url": "#"
+    }
+  ]
+}

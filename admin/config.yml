@@ -1,0 +1,83 @@
+backend:
+  name: github
+  repo: REPLACE_WITH_YOUR_GITHUB_NAME/mjss-site
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+publish_mode: editorial_workflow
+
+collections:
+  - name: "site"
+    label: "サイト共通"
+    files:
+      - file: "data/site.json"
+        label: "サイト基本情報"
+        name: "site"
+        fields:
+          - { label: "サイト名", name: "site_name", widget: "string" }
+          - { label: "トップ見出し", name: "hero_title", widget: "string" }
+          - { label: "トップ説明", name: "hero_lead", widget: "text" }
+          - { label: "お知らせ", name: "announcement", widget: "text", required: false }
+
+  - name: "next_performers"
+    label: "次回参加者"
+    label_singular: "次回参加者"
+    files:
+      - file: "data/next-performers.json"
+        label: "次回参加者一覧"
+        name: "next_performers_list"
+        fields:
+          - label: "参加者"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "名前", name: "name", widget: "string" }
+              - { label: "肩書き1", name: "tag1", widget: "string", required: false }
+              - { label: "肩書き2", name: "tag2", widget: "string", required: false }
+              - { label: "紹介文", name: "description", widget: "text", required: false }
+              - { label: "画像", name: "image", widget: "image", required: false }
+              - { label: "Xリンク", name: "x_url", widget: "string", required: false }
+              - { label: "媒体リンク", name: "media_url", widget: "string", required: false }
+
+  - name: "past_performers"
+    label: "過去参加者"
+    label_singular: "過去参加者"
+    files:
+      - file: "data/past-performers.json"
+        label: "過去参加者一覧"
+        name: "past_performers_list"
+        fields:
+          - label: "参加者"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "名前", name: "name", widget: "string" }
+              - { label: "紹介文", name: "description", widget: "text", required: false }
+              - { label: "画像", name: "image", widget: "image", required: false }
+              - { label: "Xリンク", name: "x_url", widget: "string", required: false }
+              - { label: "媒体リンク", name: "media_url", widget: "string", required: false }
+
+  - name: "creators"
+    label: "クリエイター"
+    label_singular: "クリエイター"
+    files:
+      - file: "data/creators.json"
+        label: "クリエイター一覧"
+        name: "creators_list"
+        fields:
+          - label: "クリエイター"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "名前", name: "name", widget: "string" }
+              - { label: "担当1", name: "tag1", widget: "string", required: false }
+              - { label: "担当2", name: "tag2", widget: "string", required: false }
+              - { label: "紹介文", name: "description", widget: "text", required: false }
+              - { label: "画像", name: "image", widget: "image", required: false }
+              - { label: "Xリンク", name: "x_url", widget: "string", required: false }
+              - { label: "ポートフォリオ", name: "portfolio_url", widget: "string", required: false }
