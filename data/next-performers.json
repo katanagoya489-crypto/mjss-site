@@ -2,30 +2,22 @@
   "items": [
     {
       "name": "出演者A",
-      "tag1": "Singer",
-      "tag2": "Streamer",
       "description": "ここに紹介文を入れます。",
-      "image": "",
       "x_url": "#",
       "media_url": "#"
     },
     {
       "name": "出演者B",
-      "tag1": "DJ",
-      "tag2": "Live",
       "description": "ここに紹介文を入れます。",
-      "image": "",
       "x_url": "#",
       "media_url": "#"
     },
     {
       "name": "出演者C",
-      "tag1": "V",
-      "tag2": "Guest",
       "description": "ここに紹介文を入れます。",
-      "image": "",
       "x_url": "#",
       "media_url": "#"
-    }
+    },
+    {}
   ]
 }
