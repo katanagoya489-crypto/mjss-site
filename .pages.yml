@@ -24,21 +24,40 @@ content:
       - { name: next_date_3, label: 開催日3 日付, type: string }
       - { name: next_date_3_sub, label: 開催日3 曜日, type: string }
       - { name: next_date_3_note, label: 開催日3 補足, type: string }
-      - { name: font_family, label: 全体フォント指定, type: string }
-      - { name: text_color, label: 全体文字色, type: string }
-      - { name: heading_color, label: 見出し・強調色, type: string }
-      - { name: button_text_color, label: ボタン文字色, type: string }
-      - { name: button_border_color, label: ボタン枠線色, type: string }
-      - { name: button_bg_color, label: ボタン背景色, type: string }
-      - { name: nav_text_color, label: 上ナビ文字色, type: string }
-      - { name: nav_border_color, label: 上ナビ枠線色, type: string }
-      - { name: nav_bg_color, label: 上ナビ背景色, type: string }
-      - { name: bg_top_color, label: ページ背景色（上）, type: string }
-      - { name: bg_bottom_color, label: ページ背景色（下）, type: string }
-      - { name: heading_size, label: 見出し文字サイズ, type: string }
-      - { name: body_size, label: 本文文字サイズ, type: string }
-      - { name: nav_size, label: 上ナビ文字サイズ, type: string }
-      - { name: button_size, label: ボタン文字サイズ, type: string }
+
+      - name: font_preset
+        label: フォントの雰囲気
+        type: select
+        options:
+          - { label: ゴシック（見やすい）, value: gothic }
+          - { label: 明朝（上品）, value: mincho }
+          - { label: ポップ（親しみやすい）, value: pop }
+          - { label: スタイリッシュ（シンプル）, value: stylish }
+
+      - name: theme_preset
+        label: 配色テーマ
+        type: select
+        options:
+          - { label: Midnight（濃紺）, value: midnight }
+          - { label: Aqua Pop（水色系）, value: aqua_pop }
+          - { label: Sunset（ピンク橙系）, value: sunset }
+
+      - name: text_scale_preset
+        label: 文字サイズ
+        type: select
+        options:
+          - { label: 小さめ, value: small }
+          - { label: 標準, value: medium }
+          - { label: 大きめ, value: large }
+          - { label: 特大, value: xlarge }
+
+      - name: nav_style_preset
+        label: 上ナビの見た目
+        type: select
+        options:
+          - { label: 枠線あり, value: outline }
+          - { label: 塗りつぶし, value: solid }
+          - { label: ガラス風, value: glass }
 
   - name: concept_page
     label: 理念ページ
@@ -101,7 +120,7 @@ content:
           - { name: name, label: 名前, type: string }
           - { name: tags, label: タグ, type: string, list: true }
           - { name: description, label: 紹介文, type: text }
-          - { name: image, label: 立ち絵画像, type: image }
+          - { name: image, label: 画像, type: image }
           - { name: x_url, label: Xリンク, type: string }
           - { name: media_url, label: 媒体リンク, type: string }
 
@@ -118,7 +137,7 @@ content:
           - { name: name, label: 名前, type: string }
           - { name: tags, label: タグ, type: string, list: true }
           - { name: description, label: 紹介文, type: text }
-          - { name: image, label: 立ち絵画像, type: image }
+          - { name: image, label: 画像, type: image }
           - { name: x_url, label: Xリンク, type: string }
           - { name: media_url, label: 媒体リンク, type: string }
 
@@ -133,9 +152,9 @@ content:
         list: true
         fields:
           - { name: name, label: 名前, type: string }
-          - { name: role, label: 担当分野, type: string }
+          - { name: role, label: 役割, type: string }
           - { name: description, label: 紹介文, type: text }
-          - { name: image, label: 作品画像, type: image }
+          - { name: image, label: 画像, type: image }
           - { name: x_url, label: Xリンク, type: string }
           - { name: portfolio_url, label: ポートフォリオ, type: string }
 
