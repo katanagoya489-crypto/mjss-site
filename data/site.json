@@ -6,19 +6,5 @@
   "hero_bg_image": "/images/uploads/名称未設定のデザイン (74) (1).png",
   "next_date_1": "7/25",
   "next_date_1_sub": " Saturday",
-  "font_family": "'Hiragino Sans', 'Yu Gothic', sans-serif",
-  "text_color": "#ffffff",
-  "heading_color": "#ffffff",
-  "button_text_color": "#ffffff",
-  "button_border_color": "rgba(255,255,255,0.7)",
-  "button_bg_color": "rgba(255,255,255,0.04)",
-  "nav_text_color": "#ffffff",
-  "nav_border_color": "rgba(255,255,255,0.7)",
-  "nav_bg_color": "rgba(255,255,255,0.04)",
-  "bg_top_color": "#071326",
-  "bg_bottom_color": "#0b1d3a",
-  "heading_size": "2.2rem",
-  "body_size": "1.05rem",
-  "nav_size": "1rem",
-  "button_size": "1rem"
+  "nav_style_preset": "glass"
 }
