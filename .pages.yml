@@ -14,136 +14,160 @@ content:
       - { name: announcement, label: お知らせ, type: text }
       - { name: hero_logo_image, label: ホームロゴ画像, type: image }
       - { name: hero_bg_image, label: ホーム背景画像, type: image }
-      - { name: next_date_label, label: 次回開催見出し, type: string }
-      - { name: next_date_1, label: 開催日1 日付, type: string }
-      - { name: next_date_1_sub, label: 開催日1 曜日, type: string }
-      - { name: next_date_1_note, label: 開催日1 補足, type: string }
-      - { name: next_date_2, label: 開催日2 日付, type: string }
-      - { name: next_date_2_sub, label: 開催日2 曜日, type: string }
-      - { name: next_date_2_note, label: 開催日2 補足, type: string }
-      - { name: next_date_3, label: 開催日3 日付, type: string }
-      - { name: next_date_3_sub, label: 開催日3 曜日, type: string }
-      - { name: next_date_3_note, label: 開催日3 補足, type: string }
 
       - name: font_preset
-        label: フォントの雰囲気
+        label: フォント
         type: select
         options:
           values:
-            - { label: ゴシック（見やすい）, value: gothic }
-            - { label: 明朝（上品）, value: mincho }
-            - { label: ポップ（親しみやすい）, value: pop }
-            - { label: スタイリッシュ（シンプル）, value: stylish }
+            - { label: ゴシック, value: gothic }
+            - { label: 明朝, value: mincho }
+            - { label: ポップ, value: pop }
+            - { label: シンプル, value: stylish }
 
       - name: theme_preset
-        label: 配色テーマ
+        label: カラー
         type: select
         options:
           values:
-            - { label: Midnight（濃紺）, value: midnight }
-            - { label: Aqua Pop（水色系）, value: aqua_pop }
-            - { label: Sunset（ピンク橙系）, value: sunset }
+            - { label: 濃紺, value: midnight }
+            - { label: 水色, value: aqua_pop }
+            - { label: 夕焼け, value: sunset }
 
       - name: text_scale_preset
         label: 文字サイズ
         type: select
         options:
           values:
-            - { label: 小さめ, value: small }
-            - { label: 標準, value: medium }
-            - { label: 大きめ, value: large }
-            - { label: 特大, value: xlarge }
+            - { label: 小, value: small }
+            - { label: 中, value: medium }
+            - { label: 大, value: large }
 
-      - name: nav_style_preset
-        label: 上ナビの見た目
-        type: select
-        options:
-          values:
-            - { label: 枠線あり, value: outline }
-            - { label: 塗りつぶし, value: solid }
-            - { label: ガラス風, value: glass }
+---
 
   - name: concept_page
     label: 理念ページ
     type: file
-    path: data/concept-page.json
+    path: data/concept.json
     fields:
-      - { name: title, label: タイトル, type: string }
-      - { name: body, label: 本文, type: text }
+      - name: blocks
+        label: コンテンツ
+        type: object
+        list: true
+        fields:
+          - name: type
+            label: 種類
+            type: select
+            options:
+              values:
+                - { label: 特大見出し, value: hero }
+                - { label: 見出し, value: heading }
+                - { label: 本文, value: body }
+                - { label: 引用, value: quote }
+                - { label: 強調, value: emphasis }
+                - { label: 余白, value: spacer }
+
+          - { name: text, label: 内容, type: text }
+
+---
 
   - name: rules_page
     label: お願いページ
     type: file
-    path: data/rules-page.json
+    path: data/rules.json
     fields:
-      - { name: title, label: タイトル, type: string }
-      - { name: body, label: 本文, type: text }
+      - name: blocks
+        label: コンテンツ
+        type: object
+        list: true
+        fields:
+          - name: type
+            label: 種類
+            type: select
+            options:
+              values:
+                - { label: 見出し, value: heading }
+                - { label: 本文, value: body }
+                - { label: 強調, value: emphasis }
+
+          - { name: text, label: 内容, type: text }
+
+---
 
   - name: entry_page
-    label: 参加フォームページ
+    label: 参加フォーム
     type: file
-    path: data/entry-page.json
+    path: data/entry.json
     fields:
-      - { name: title, label: タイトル, type: string }
-      - { name: body, label: 本文, type: text }
+      - name: blocks
+        label: コンテンツ
+        type: object
+        list: true
+        fields:
+          - { name: type, label: 種類, type: string }
+          - { name: text, label: 内容, type: text }
+
+---
 
   - name: works_page
-    label: 仕事依頼ページ
+    label: 仕事依頼
     type: file
-    path: data/works-page.json
+    path: data/works.json
     fields:
-      - { name: title, label: タイトル, type: string }
-      - { name: body, label: 本文, type: text }
+      - name: blocks
+        label: コンテンツ
+        type: object
+        list: true
+        fields:
+          - { name: type, label: 種類, type: string }
+          - { name: text, label: 内容, type: text }
 
-  - name: staff_page
-    label: スタッフページ
-    type: file
-    path: data/staff-page.json
-    fields:
-      - { name: title, label: タイトル, type: string }
-      - { name: body, label: 本文, type: text }
+---
 
   - name: omake_page
-    label: おまけページ
+    label: おまけ
     type: file
-    path: data/omake-page.json
+    path: data/omake.json
     fields:
-      - { name: title, label: タイトル, type: string }
-      - { name: body, label: 本文, type: text }
+      - name: blocks
+        label: コンテンツ
+        type: object
+        list: true
+        fields:
+          - { name: type, label: 種類, type: string }
+          - { name: text, label: 内容, type: text }
+
+---
 
   - name: next_performers
     label: 次回参加者
     type: file
-    path: data/next-performers.json
+    path: data/next.json
     fields:
       - name: items
-        label: 次回参加者一覧
+        label: 一覧
         type: object
         list: true
         fields:
           - { name: name, label: 名前, type: string }
-          - { name: tags, label: タグ, type: string, list: true }
-          - { name: description, label: 紹介文, type: text }
           - { name: image, label: 画像, type: image }
-          - { name: x_url, label: Xリンク, type: string }
-          - { name: media_url, label: 媒体リンク, type: string }
+
+---
 
   - name: past_performers
     label: 過去参加者
     type: file
-    path: data/past-performers.json
+    path: data/past.json
     fields:
       - name: items
-        label: 過去参加者一覧
+        label: 一覧
         type: object
         list: true
         fields:
           - { name: name, label: 名前, type: string }
-          - { name: tags, label: タグ, type: string, list: true }
-          - { name: description, label: 紹介文, type: text }
           - { name: image, label: 画像, type: image }
-          - { name: x_url, label: Xリンク, type: string }
-          - { name: media_url, label: 媒体リンク, type: string }
+
+---
 
   - name: creators
     label: クリエイター
@@ -151,42 +175,9 @@ content:
     path: data/creators.json
     fields:
       - name: items
-        label: クリエイター一覧
+        label: 一覧
         type: object
         list: true
         fields:
           - { name: name, label: 名前, type: string }
-          - { name: role, label: 役割, type: string }
-          - { name: description, label: 紹介文, type: text }
           - { name: image, label: 画像, type: image }
-          - { name: x_url, label: Xリンク, type: string }
-          - { name: portfolio_url, label: ポートフォリオ, type: string }
-
-  - name: staff_list
-    label: スタッフ一覧
-    type: file
-    path: data/staff-list.json
-    fields:
-      - name: items
-        label: スタッフ一覧
-        type: object
-        list: true
-        fields:
-          - { name: name, label: 名前, type: string }
-          - { name: role, label: 役割, type: string }
-          - { name: description, label: 紹介文, type: text }
-          - { name: image, label: 画像, type: image }
-
-  - name: staff_blog
-    label: スタッフブログ
-    type: file
-    path: data/staff-blog.json
-    fields:
-      - name: items
-        label: 記事一覧
-        type: object
-        list: true
-        fields:
-          - { name: title, label: タイトル, type: string }
-          - { name: date, label: 日付, type: string }
-          - { name: body, label: 本文, type: text }
