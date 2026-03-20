@@ -1,21 +1,19 @@
 {
   "items": [
     {
-      "name": "出演者A",
+      "name": "陽色叶斗",
       "tags": [
-        "Singer",
-        "Streamer"
+        "ヒーロー",
+        "主人公"
       ],
-      "description": "ここに紹介文を入れます。",
+      "description": "あの頃、ヒーローに、主人公に憧れた君へ。",
       "image": "",
       "x_url": "#",
       "media_url": "#"
     },
     {
       "name": "出演者B",
-      "tags": [
-        "DJ"
-      ],
+      "tags": [],
       "description": "ここに紹介文を入れます。",
       "image": "",
       "x_url": "#",
@@ -23,9 +21,7 @@
     },
     {
       "name": "出演者C",
-      "tags": [
-        "Creator"
-      ],
+      "tags": [],
       "description": "ここに紹介文を入れます。",
       "image": "",
       "x_url": "#",
