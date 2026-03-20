@@ -1,24 +1,15 @@
 {
   "items": [
     {
-      "name": "陽色叶斗",
-      "description": "あの頃、ヒーローに、主人公に憧れた君へ。\n\n俺を、ヒーローを呼んだかい？\nおまたせしました、主人公に憧れたすごいやつ！\n\nゴーグル、赤いジャケット、輝くアーマー！\nビジュアルも声も圧倒的主人公！\nみんなのヒーロー！ここに参上！\n\n気軽にヒーローって呼んでくれよな！\nレッドでもいいよ！",
-      "image": "/images/uploads/HERO kanato (1).gif",
-      "x_url": "https://x.com/hero_kanato",
-      "media_url": "#"
-    },
-    {
-      "name": "出演者B",
+      "name": "出演者A",
+      "tags": [
+        "Singer",
+        "V"
+      ],
       "description": "ここに紹介文を入れます。",
+      "image": "",
       "x_url": "#",
       "media_url": "#"
-    },
-    {
-      "name": "出演者C",
-      "description": "ここに紹介文を入れます。",
-      "x_url": "#",
-      "media_url": "#"
-    },
-    {}
+    }
   ]
 }

@@ -1,8 +1,23 @@
 {
   "site_name": "MJSS",
-  "logo_image": "",
-  "hero_background": "",
   "hero_title": "MJSS LIVE",
   "hero_lead": "音楽、配信、表現が交差するライブイベント。\n出演者、来場者、クリエイターの“好き”がつながる場所。",
-  "announcement": "最新情報は順次更新予定です。"
+  "announcement": "最新情報は順次更新予定です。",
+  "hero_logo_image": "",
+  "hero_bg_image": "",
+  "font_family": "'Hiragino Sans', 'Yu Gothic', sans-serif",
+  "text_color": "#ffffff",
+  "accent_color": "#ffffff",
+  "button_text_color": "#ffffff",
+  "button_border_color": "rgba(255,255,255,0.7)",
+  "button_bg_color": "rgba(255,255,255,0.04)",
+  "nav_text_color": "#ffffff",
+  "nav_border_color": "rgba(255,255,255,0.7)",
+  "nav_bg_color": "rgba(255,255,255,0.04)",
+  "page_bg_top": "#071326",
+  "page_bg_bottom": "#0b1d3a",
+  "heading_size": "2.2rem",
+  "body_size": "1.05rem",
+  "nav_size": "1.1rem",
+  "button_size": "1rem"
 }
