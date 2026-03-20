@@ -3,31 +3,46 @@
 <body>
 <header class="topbar"><div class="container topbar-inner"><a class="brand" href="index.html">MJSS</a><nav class="nav"><a href="index.html">ホーム</a><a href="concept.html">ライブ理念</a><a href="rules.html">お願い</a><a href="entry.html">参加フォーム</a><a href="next-performers.html">次回参加者</a><a class="active" href="past-performers.html">過去参加者</a><a href="creators.html">クリエイター</a><a href="works.html">仕事依頼</a></nav></div></header>
 <main>
-<section class="page-hero"><div class="container"><div class="section-card card"><div class="kicker">Past Performers</div><h1>過去参加者の紹介ページ</h1><p class="lead">実績ページも管理画面から増やせます。画像と紹介文を差し替えるだけで更新できます。</p></div></div></section>
+<section class="page-hero"><div class="container"><div class="section-card card"><div class="kicker">Past Performers</div><h1>過去参加者の紹介ページ</h1><p class="lead">このページは管理画面から更新できます。名前・紹介文・画像・リンクを保存すると反映されます。</p></div></div></section>
 <section><div class="container"><div id="past-performers-grid" class="grid-3"></div></div></section>
 </main><footer><div class="container"><p>© MJSS</p></div></footer>
 <script>
+function escapeHtml(v='') {
+  return String(v).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+}
+function normalizeImagePath(path='') {
+  if (!path) return '';
+  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('/')) return path;
+  return '/' + path.replace(/^\.\//, '');
+}
+function renderTags(tags) {
+  if (!Array.isArray(tags) || !tags.length) return '';
+  return `<div class="chip-row">${tags.map(tag => `<span class="chip">${escapeHtml(tag)}</span>`).join('')}</div>`;
+}
 async function loadPastPerformers() {
   const grid = document.getElementById('past-performers-grid');
   try {
-    const res = await fetch('data/past-performers.json');
+    const res = await fetch('data/past-performers.json?ts=' + Date.now());
     const data = await res.json();
     const items = Array.isArray(data.items) ? data.items : [];
     if (!items.length) {
       grid.innerHTML = '<div class="profile-grid-empty card">まだ過去参加者が登録されていません。</div>';
       return;
     }
-    grid.innerHTML = items.map(item => `
+    grid.innerHTML = items.map(item => {
+      const img = normalizeImagePath(item.image || '');
+      return `
       <article class="profile-card">
-        <div class="thumb">${item.image ? `<img src="${item.image}" alt="${item.name}">` : '立ち絵枠'}</div>
-        <h3>${item.name || ''}</h3>
-        <p class="muted">${item.description || ''}</p>
+        <div class="thumb">${img ? `<img src="${img}" alt="${escapeHtml(item.name || '')}">` : '立ち絵枠'}</div>
+        <h3>${escapeHtml(item.name || '')}</h3>
+        ${renderTags(item.tags)}
+        <p class="muted">${escapeHtml(item.description || '')}</p>
         <div class="button-row">
-          ${item.x_url ? `<a class="btn btn-secondary" href="${item.x_url}" target="_blank" rel="noopener noreferrer">Xを見る</a>` : ''}
-          ${item.media_url ? `<a class="btn btn-secondary" href="${item.media_url}" target="_blank" rel="noopener noreferrer">媒体を見る</a>` : ''}
+          ${item.x_url ? `<a class="btn btn-secondary" href="${escapeHtml(item.x_url)}" target="_blank" rel="noopener noreferrer">Xを見る</a>` : ''}
+          ${item.media_url && item.media_url !== '#' ? `<a class="btn btn-secondary" href="${escapeHtml(item.media_url)}" target="_blank" rel="noopener noreferrer">媒体を見る</a>` : ''}
         </div>
-      </article>
-    `).join('');
+      </article>`;
+    }).join('');
   } catch (e) {
     grid.innerHTML = '<div class="profile-grid-empty card">読み込みに失敗しました。</div>';
   }

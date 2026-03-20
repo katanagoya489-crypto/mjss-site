@@ -3,35 +3,42 @@
 <body>
 <header class="topbar"><div class="container topbar-inner"><a class="brand" href="index.html">MJSS</a><nav class="nav"><a href="index.html">ホーム</a><a href="concept.html">ライブ理念</a><a href="rules.html">お願い</a><a href="entry.html">参加フォーム</a><a href="next-performers.html">次回参加者</a><a href="past-performers.html">過去参加者</a><a class="active" href="creators.html">クリエイター</a><a href="works.html">仕事依頼</a></nav></div></header>
 <main>
-<section class="page-hero"><div class="container"><div class="section-card card"><div class="kicker">Creators</div><h1>クリエイターさん紹介ページ</h1><p class="lead">クリエイター紹介も Decap CMS から管理できます。名前、担当分野、画像、X、ポートフォリオを入力すると表示が変わります。</p></div></div></section>
+<section class="page-hero"><div class="container"><div class="section-card card"><div class="kicker">Creators</div><h1>クリエイターさん紹介ページ</h1><p class="lead">このページは管理画面から更新できます。名前・担当分野・紹介文・画像・リンクを保存すると反映されます。</p></div></div></section>
 <section><div class="container"><div id="creators-grid" class="grid-3"></div></div></section>
 </main><footer><div class="container"><p>© MJSS</p></div></footer>
 <script>
+function escapeHtml(v='') {
+  return String(v).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+}
+function normalizeImagePath(path='') {
+  if (!path) return '';
+  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('/')) return path;
+  return '/' + path.replace(/^\.\//, '');
+}
 async function loadCreators() {
   const grid = document.getElementById('creators-grid');
   try {
-    const res = await fetch('data/creators.json');
+    const res = await fetch('data/creators.json?ts=' + Date.now());
     const data = await res.json();
     const items = Array.isArray(data.items) ? data.items : [];
     if (!items.length) {
       grid.innerHTML = '<div class="profile-grid-empty card">まだクリエイターが登録されていません。</div>';
       return;
     }
-    grid.innerHTML = items.map(item => `
+    grid.innerHTML = items.map(item => {
+      const img = normalizeImagePath(item.image || '');
+      return `
       <article class="profile-card">
-        <div class="thumb">${item.image ? `<img src="${item.image}" alt="${item.name}">` : '作品画像枠'}</div>
-        <h3>${item.name || ''}</h3>
-        <div class="chip-row">
-          ${item.tag1 ? `<span class="chip">${item.tag1}</span>` : ''}
-          ${item.tag2 ? `<span class="chip">${item.tag2}</span>` : ''}
-        </div>
-        <p class="muted">${item.description || ''}</p>
+        <div class="thumb">${img ? `<img src="${img}" alt="${escapeHtml(item.name || '')}">` : '作品画像枠'}</div>
+        <h3>${escapeHtml(item.name || '')}</h3>
+        <div class="chip-row">${item.role ? `<span class="chip">${escapeHtml(item.role)}</span>` : ''}</div>
+        <p class="muted">${escapeHtml(item.description || '')}</p>
         <div class="button-row">
-          ${item.x_url ? `<a class="btn btn-secondary" href="${item.x_url}" target="_blank" rel="noopener noreferrer">Xを見る</a>` : ''}
-          ${item.portfolio_url ? `<a class="btn btn-secondary" href="${item.portfolio_url}" target="_blank" rel="noopener noreferrer">ポートフォリオ</a>` : ''}
+          ${item.x_url ? `<a class="btn btn-secondary" href="${escapeHtml(item.x_url)}" target="_blank" rel="noopener noreferrer">Xを見る</a>` : ''}
+          ${item.portfolio_url && item.portfolio_url !== '#' ? `<a class="btn btn-secondary" href="${escapeHtml(item.portfolio_url)}" target="_blank" rel="noopener noreferrer">ポートフォリオ</a>` : ''}
         </div>
-      </article>
-    `).join('');
+      </article>`;
+    }).join('');
   } catch (e) {
     grid.innerHTML = '<div class="profile-grid-empty card">読み込みに失敗しました。</div>';
   }
