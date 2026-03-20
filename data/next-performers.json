@@ -4,7 +4,27 @@
       "name": "出演者A",
       "tags": [
         "Singer",
-        "V"
+        "Streamer"
+      ],
+      "description": "ここに紹介文を入れます。",
+      "image": "",
+      "x_url": "#",
+      "media_url": "#"
+    },
+    {
+      "name": "出演者B",
+      "tags": [
+        "DJ"
+      ],
+      "description": "ここに紹介文を入れます。",
+      "image": "",
+      "x_url": "#",
+      "media_url": "#"
+    },
+    {
+      "name": "出演者C",
+      "tags": [
+        "Creator"
       ],
       "description": "ここに紹介文を入れます。",
       "image": "",

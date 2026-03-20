@@ -1,0 +1,16 @@
+{
+  "items": [
+    {
+      "name": "スタッフA",
+      "role": "運営",
+      "description": "ここに紹介文を入れます。",
+      "image": ""
+    },
+    {
+      "name": "スタッフB",
+      "role": "制作",
+      "description": "ここに紹介文を入れます。",
+      "image": ""
+    }
+  ]
+}

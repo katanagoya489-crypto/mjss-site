@@ -7,6 +7,14 @@
       "image": "",
       "x_url": "#",
       "portfolio_url": "#"
+    },
+    {
+      "name": "クリエイターB",
+      "role": "Designer",
+      "description": "ここに紹介文を入れます。",
+      "image": "",
+      "x_url": "#",
+      "portfolio_url": "#"
     }
   ]
 }
