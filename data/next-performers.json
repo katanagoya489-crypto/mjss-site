@@ -3,27 +3,23 @@
     {
       "name": "陽色叶斗",
       "tags": [
-        "ヒーロー",
-        "主人公"
+        "Vライバー",
+        "OZON"
       ],
       "description": "あの頃、ヒーローに、主人公に憧れた君へ。",
-      "image": "",
-      "x_url": "#",
+      "image": "/images/uploads/HERO kanato (1).gif",
+      "x_url": "#https://x.com/hero_kanato",
       "media_url": "#"
     },
     {
       "name": "出演者B",
-      "tags": [],
       "description": "ここに紹介文を入れます。",
-      "image": "",
       "x_url": "#",
       "media_url": "#"
     },
     {
       "name": "出演者C",
-      "tags": [],
       "description": "ここに紹介文を入れます。",
-      "image": "",
       "x_url": "#",
       "media_url": "#"
     }
