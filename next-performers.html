@@ -9,7 +9,10 @@
     body {
       margin: 0;
       font-family: sans-serif;
-      background: linear-gradient(180deg, #071326, #0b1d3a);
+      background:
+        radial-gradient(circle at top left, rgba(80,120,255,0.18), transparent 30%),
+        radial-gradient(circle at top right, rgba(0,180,255,0.12), transparent 30%),
+        linear-gradient(180deg, #071326, #0b1d3a);
       color: #fff;
     }
 
@@ -19,37 +22,121 @@
       padding: 40px 20px;
     }
 
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 28px;
+      letter-spacing: 0.02em;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 24px;
+      align-items: start;
     }
 
     .card {
       background: rgba(255,255,255,0.05);
-      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
       padding: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      backdrop-filter: blur(8px);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.5);
     }
 
     .thumb {
       width: 100%;
-      height: 300px;
-      border-radius: 12px;
-      background: #334;
+      height: 340px;
+      border-radius: 16px;
+      background-color: #334;
       display: flex;
       align-items: center;
       justify-content: center;
+      color: rgba(255,255,255,0.9);
+      font-weight: bold;
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .thumb-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center bottom;
+      display: block;
+    }
+
+    .card h3 {
+      margin: 0 0 12px;
+      font-size: 1.8rem;
+      line-height: 1.3;
+    }
+
+    .card p {
+      margin: 0 0 18px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.92);
+      font-size: 1.15rem;
+      white-space: pre-wrap;
     }
 
     .btn {
       display: inline-block;
       margin-top: 10px;
-      padding: 8px 14px;
-      border: 1px solid #fff;
-      border-radius: 20px;
+      margin-right: 10px;
+      padding: 10px 18px;
+      border: 1px solid rgba(255,255,255,0.7);
+      border-radius: 999px;
       text-decoration: none;
       color: #fff;
-      margin-right: 8px;
+      font-weight: bold;
+      background: rgba(255,255,255,0.04);
+      transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: #fff;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 28px 16px;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+        margin-bottom: 22px;
+      }
+
+      .grid {
+        gap: 18px;
+      }
+
+      .thumb {
+        height: 280px;
+      }
+
+      .card h3 {
+        font-size: 1.5rem;
+      }
+
+      .card p {
+        font-size: 1.02rem;
+        line-height: 1.7;
+      }
+
+      .btn {
+        padding: 9px 16px;
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
@@ -61,44 +148,63 @@
   </div>
 
   <script>
+    function buildImageUrl(rawImage) {
+      if (!rawImage || typeof rawImage !== 'string') return '';
+
+      const value = rawImage.trim();
+      if (!value) return '';
+
+      if (value.startsWith('http://') || value.startsWith('https://')) {
+        return value;
+      }
+
+      if (value.startsWith('/')) {
+        return value;
+      }
+
+      if (value.startsWith('images/')) {
+        return '/' + value;
+      }
+
+      return '/images/uploads/' + value;
+    }
+
     async function load() {
-      const res = await fetch('/data/next-performers.json');
-      const data = await res.json();
-      const list = data.items || [];
-      const container = document.getElementById('list');
+      try {
+        const res = await fetch('/data/next-performers.json');
+        const data = await res.json();
+        const list = Array.isArray(data.items) ? data.items : [];
+        const container = document.getElementById('list');
 
-      list.forEach(item => {
-        let img = '';
+        container.innerHTML = '';
 
-        if (item.image) {
-          if (item.image.startsWith('http')) {
-            img = item.image;
-          } else if (item.image.startsWith('/')) {
-            img = item.image;
-          } else {
-            img = '/images/uploads/' + item.image;
-          }
-        }
+        list.forEach(item => {
+          const img = buildImageUrl(item.image);
 
-        const el = document.createElement('div');
-        el.className = 'card';
+          const el = document.createElement('div');
+          el.className = 'card';
 
-        el.innerHTML = `
-          <div class="thumb" ${
-            img ? `style="background:url('${img}') center/cover;"` : ''
-          }>
-            ${img ? '' : '立ち絵枠'}
-          </div>
+          el.innerHTML = `
+            <div class="thumb">
+              ${
+                img
+                  ? `<img src="${img}" alt="${item.name || ''}" class="thumb-image">`
+                  : '立ち絵枠'
+              }
+            </div>
 
-          <h3>${item.name || ''}</h3>
-          <p>${item.description || ''}</p>
+            <h3>${item.name || ''}</h3>
+            <p>${item.description || ''}</p>
 
-          ${item.x_url ? `<a class="btn" href="${item.x_url}" target="_blank">Xを見る</a>` : ''}
-          ${item.media_url && item.media_url !== '#' ? `<a class="btn" href="${item.media_url}" target="_blank">媒体を見る</a>` : ''}
-        `;
+            ${item.x_url ? `<a class="btn" href="${item.x_url}" target="_blank" rel="noopener noreferrer">Xを見る</a>` : ''}
+            ${item.media_url && item.media_url !== '#' ? `<a class="btn" href="${item.media_url}" target="_blank" rel="noopener noreferrer">媒体を見る</a>` : ''}
+          `;
 
-        container.appendChild(el);
-      });
+          container.appendChild(el);
+        });
+      } catch (error) {
+        console.error('次回参加者データの読み込みに失敗:', error);
+      }
     }
 
     load();
