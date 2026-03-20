@@ -20,6 +20,12 @@ content:
       - name: announcement
         label: お知らせ
         type: text
+      - name: hero_logo_image
+        label: ホームロゴ画像
+        type: image
+      - name: hero_bg_image
+        label: ホーム背景画像
+        type: image
 
   - name: next_performers
     label: 次回参加者
