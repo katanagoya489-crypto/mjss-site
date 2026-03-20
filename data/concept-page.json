@@ -1,7 +1,7 @@
 {
   "blocks": [
     {
-      "type": "hero_title",
+      "type": "heading",
       "text": "MJSS LIVE 理念"
     }
   ]
