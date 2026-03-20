@@ -29,35 +29,39 @@ content:
         label: フォントの雰囲気
         type: select
         options:
-          - { label: ゴシック（見やすい）, value: gothic }
-          - { label: 明朝（上品）, value: mincho }
-          - { label: ポップ（親しみやすい）, value: pop }
-          - { label: スタイリッシュ（シンプル）, value: stylish }
+          values:
+            - { label: ゴシック（見やすい）, value: gothic }
+            - { label: 明朝（上品）, value: mincho }
+            - { label: ポップ（親しみやすい）, value: pop }
+            - { label: スタイリッシュ（シンプル）, value: stylish }
 
       - name: theme_preset
         label: 配色テーマ
         type: select
         options:
-          - { label: Midnight（濃紺）, value: midnight }
-          - { label: Aqua Pop（水色系）, value: aqua_pop }
-          - { label: Sunset（ピンク橙系）, value: sunset }
+          values:
+            - { label: Midnight（濃紺）, value: midnight }
+            - { label: Aqua Pop（水色系）, value: aqua_pop }
+            - { label: Sunset（ピンク橙系）, value: sunset }
 
       - name: text_scale_preset
         label: 文字サイズ
         type: select
         options:
-          - { label: 小さめ, value: small }
-          - { label: 標準, value: medium }
-          - { label: 大きめ, value: large }
-          - { label: 特大, value: xlarge }
+          values:
+            - { label: 小さめ, value: small }
+            - { label: 標準, value: medium }
+            - { label: 大きめ, value: large }
+            - { label: 特大, value: xlarge }
 
       - name: nav_style_preset
         label: 上ナビの見た目
         type: select
         options:
-          - { label: 枠線あり, value: outline }
-          - { label: 塗りつぶし, value: solid }
-          - { label: ガラス風, value: glass }
+          values:
+            - { label: 枠線あり, value: outline }
+            - { label: 塗りつぶし, value: solid }
+            - { label: ガラス風, value: glass }
 
   - name: concept_page
     label: 理念ページ
