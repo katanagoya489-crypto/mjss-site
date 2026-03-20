@@ -17,34 +17,34 @@
     }
 
     .top-nav {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 20px 20px 0;
-}
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 20px 0;
+    }
 
-.nav-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
 
-.nav-btn {
-  display: inline-block;
-  padding: 10px 18px;
-  border: 1px solid rgba(255,255,255,0.7);
-  border-radius: 999px;
-  text-decoration: none;
-  color: #fff;
-  font-weight: bold;
-  background: rgba(255,255,255,0.04);
-  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
-}
+    .nav-btn {
+      display: inline-block;
+      padding: 10px 18px;
+      border: 1px solid rgba(255,255,255,0.7);
+      border-radius: 999px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      background: rgba(255,255,255,0.04);
+      transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    }
 
-.nav-btn:hover {
-  background: rgba(255,255,255,0.12);
-  border-color: #fff;
-  transform: translateY(-1px);
-}
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: #fff;
+      transform: translateY(-1px);
+    }
 
     .hero {
       max-width: 1100px;
@@ -64,6 +64,9 @@
       box-shadow: 0 16px 40px rgba(0,0,0,0.35);
       display: flex;
       align-items: flex-end;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
     }
 
     .hero-inner {
@@ -73,12 +76,25 @@
     }
 
     .eyebrow {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      min-width: 44px;
+      max-width: 220px;
       padding: 8px 14px;
       border-radius: 999px;
       background: rgba(255,255,255,0.08);
       font-weight: bold;
       margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .eyebrow-logo {
+      max-height: 34px;
+      max-width: 180px;
+      width: auto;
+      display: block;
     }
 
     h1 {
@@ -185,11 +201,15 @@
       .lead {
         font-size: 1rem;
       }
+      .eyebrow-logo {
+        max-width: 140px;
+        max-height: 28px;
+      }
     }
   </style>
 </head>
 <body>
-<div class="top-nav">
+  <div class="top-nav">
     <div class="nav-links">
       <a href="index.html" class="nav-btn">ホーム</a>
       <a href="concept.html" class="nav-btn">理念</a>
@@ -201,10 +221,13 @@
       <a href="works.html" class="nav-btn">仕事依頼</a>
     </div>
   </div>
+
   <section class="hero">
     <div class="hero-card" id="hero-card">
       <div class="hero-inner">
-        <div class="eyebrow" id="site-name">MJSS</div>
+        <div class="eyebrow" id="site-name-wrap">
+          <span id="site-name">MJSS</span>
+        </div>
         <h1 id="hero-title">MJSS LIVE</h1>
         <div class="announcement" id="announcement">お知らせをここに表示</div>
         <p class="lead" id="hero-lead">トップ説明文</p>
@@ -219,37 +242,37 @@
 
   <section class="section">
     <div class="grid">
-      <a href="concept.html" class="card">
+      <a class="card" href="concept.html">
         <h2>ライブ理念</h2>
-        <p>イベントの考え方や目指す空気感をまとめるページ。</p>
+        <p>イベントの想いや空気感をまとめたページです。</p>
       </a>
-      <a href="rules.html" class="card">
+      <a class="card" href="rules.html">
         <h2>お客さんへのお願い</h2>
-        <p>来場者向けのルールや注意事項を案内するページ。</p>
+        <p>当日の楽しみ方やルールを確認できます。</p>
       </a>
-      <a href="next-performers.html" class="card">
+      <a class="card" href="next-performers.html">
         <h2>次回参加者</h2>
-        <p>最新の出演者情報や立ち絵をまとめて見せるページ。</p>
+        <p>次回イベントの出演者・参加者を掲載します。</p>
       </a>
-      <a href="past-performers.html" class="card">
+      <a class="card" href="past-performers.html">
         <h2>過去参加者</h2>
-        <p>過去の出演者や実績を見せるためのページ。</p>
+        <p>これまでの参加者アーカイブです。</p>
       </a>
-      <a href="creators.html" class="card">
+      <a class="card" href="creators.html">
         <h2>クリエイター</h2>
-        <p>関わるクリエイターや作品紹介をまとめるページ。</p>
+        <p>関わるクリエイターや制作陣を紹介します。</p>
       </a>
-      <a href="works.html" class="card">
+      <a class="card" href="works.html">
         <h2>ポートフォリオ / 仕事依頼</h2>
-        <p>制作実績や外部依頼導線をまとめるページ。</p>
+        <p>外部仕事・制作依頼への導線です。</p>
       </a>
     </div>
   </section>
 
   <script>
-    function buildImageUrl(rawImage) {
-      if (!rawImage || typeof rawImage !== 'string') return '';
-      const value = rawImage.trim();
+    function buildAssetUrl(raw) {
+      if (!raw || typeof raw !== 'string') return '';
+      const value = raw.trim();
       if (!value) return '';
       if (value.startsWith('http://') || value.startsWith('https://')) return value;
       if (value.startsWith('/')) return value;
@@ -257,27 +280,38 @@
       return '/images/uploads/' + value;
     }
 
-    async function loadSiteData() {
+    async function loadSite() {
       try {
         const res = await fetch('/data/site.json');
         const data = await res.json();
 
-        document.getElementById('site-name').textContent = data.site_name || 'MJSS';
-        document.getElementById('hero-title').textContent = data.hero_title || 'MJSS LIVE';
-        document.getElementById('hero-lead').textContent = data.hero_lead || 'トップ説明文';
-        document.getElementById('announcement').textContent = data.announcement || 'お知らせをここに表示';
+        const siteNameWrap = document.getElementById('site-name-wrap');
+        const siteName = document.getElementById('site-name');
+        const title = document.getElementById('hero-title');
+        const lead = document.getElementById('hero-lead');
+        const announcement = document.getElementById('announcement');
+        const heroCard = document.getElementById('hero-card');
 
-        const heroBg = buildImageUrl(data.hero_background || '');
-        if (heroBg) {
-          document.getElementById('hero-card').style.background =
-            `linear-gradient(rgba(7,19,38,0.55), rgba(11,29,58,0.72)), url('${heroBg}') center/cover no-repeat`;
+        if (siteName) siteName.textContent = data.site_name || 'MJSS';
+        if (title) title.textContent = data.hero_title || 'MJSS LIVE';
+        if (lead) lead.textContent = data.hero_lead || '';
+        if (announcement) announcement.textContent = data.announcement || '';
+
+        const bg = buildAssetUrl(data.hero_background);
+        if (bg) {
+          heroCard.style.backgroundImage = `linear-gradient(rgba(7,19,38,0.45), rgba(11,29,58,0.70)), url('${bg}')`;
         }
-      } catch (error) {
-        console.error('site.json の読み込みに失敗:', error);
+
+        const logo = buildAssetUrl(data.logo_image);
+        if (logo && siteNameWrap) {
+          siteNameWrap.innerHTML = `<img src="${logo}" alt="${data.site_name || 'MJSS'}" class="eyebrow-logo">`;
+        }
+      } catch (e) {
+        console.error('site.json 読み込み失敗', e);
       }
     }
 
-    loadSiteData();
+    loadSite();
   </script>
 </body>
 </html>
