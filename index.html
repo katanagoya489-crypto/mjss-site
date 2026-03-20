@@ -1,30 +1,718 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ホーム | MJSS</title>
-  <link rel="stylesheet" href="css/site.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MJSS LIVE</title>
+  <style>
+    :root {
+      --font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
+      --bg-top: #071326;
+      --bg-bottom: #0b1d3a;
+      --text-color: #ffffff;
+      --heading-color: #ffffff;
+      --subtext-color: rgba(255,255,255,0.92);
+      --nav-bg: rgba(5,19,40,0.86);
+      --nav-text: #ffffff;
+      --nav-border: rgba(255,255,255,0.7);
+      --btn-bg: rgba(255,255,255,0.04);
+      --btn-text: #ffffff;
+      --btn-border: rgba(255,255,255,0.7);
+      --heading-size: 4.8rem;
+      --body-size: 1.05rem;
+      --nav-size: 1.2rem;
+      --button-size: 1rem;
+      --section-title-size: 2rem;
+      --card-title-size: 1.5rem;
+      --date-big-size: 4rem;
+      --hero-logo-height: 80px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font-family);
+      color: var(--text-color);
+      font-size: var(--body-size);
+      background:
+        radial-gradient(circle at top left, rgba(58,116,255,0.14), transparent 26%),
+        radial-gradient(circle at top right, rgba(0,153,255,0.10), transparent 30%),
+        linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .site-nav-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+      background: rgba(3, 13, 28, 0.78);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .site-nav {
+      width: min(1600px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 18px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .site-nav a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 64px;
+      padding: 0 32px;
+      border-radius: 999px;
+      background: var(--nav-bg);
+      color: var(--nav-text);
+      border: 2px solid var(--nav-border);
+      font-size: var(--nav-size);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .site-nav a:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.25);
+    }
+
+    .page {
+      width: min(1680px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 26px 0 48px;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 780px;
+      border-radius: 42px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.12);
+      background:
+        linear-gradient(90deg, rgba(5,22,53,0.88), rgba(4,22,53,0.70)),
+        linear-gradient(180deg, rgba(5,22,53,0.90), rgba(4,22,53,0.80));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), 0 16px 40px rgba(0,0,0,0.26);
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(2,17,45,0.82) 0%, rgba(2,17,45,0.56) 44%, rgba(2,17,45,0.18) 100%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      width: min(760px, calc(100% - 72px));
+      padding: 92px 0 92px 72px;
+    }
+
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 122px;
+      min-width: 180px;
+      padding: 20px 26px;
+      border-radius: 42px;
+      background: rgba(255,255,255,0.10);
+      margin-bottom: 34px;
+      overflow: hidden;
+    }
+
+    .logo-badge img {
+      width: auto;
+      max-width: 320px;
+      max-height: var(--hero-logo-height);
+      object-fit: contain;
+    }
+
+    .logo-text {
+      font-size: 2.25rem;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+    }
+
+    .hero-title {
+      margin: 0;
+      color: var(--heading-color);
+      font-size: var(--heading-size);
+      line-height: 1.04;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-announcement {
+      display: inline-block;
+      margin-top: 36px;
+      padding: 26px 34px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: calc(var(--body-size) * 1.5);
+      font-weight: 800;
+    }
+
+    .hero-lead {
+      margin-top: 48px;
+      font-size: calc(var(--body-size) * 1.95);
+      line-height: 1.7;
+      color: var(--subtext-color);
+      font-weight: 700;
+      white-space: pre-wrap;
+      max-width: 900px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 46px;
+    }
+
+    .btn-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 84px;
+      padding: 0 42px;
+      border-radius: 999px;
+      border: 2px solid var(--btn-border);
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      font-size: calc(var(--button-size) * 1.35);
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .btn-pill:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.12);
+    }
+
+    .section {
+      margin-top: 54px;
+    }
+
+    .section-title {
+      margin: 0 0 18px;
+      font-size: var(--section-title-size);
+      font-weight: 900;
+      letter-spacing: 0.02em;
+    }
+
+    .section-sub {
+      margin: 0 0 24px;
+      color: rgba(255,255,255,0.78);
+      font-size: calc(var(--body-size) * 1.02);
+    }
+
+    .date-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .date-card {
+      position: relative;
+      min-height: 165px;
+      border-radius: 26px;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(255,122,58,0.92), rgba(255,215,189,0.86) 28%, rgba(255,255,255,0.95) 44%, rgba(36,115,197,0.90) 73%, rgba(12,52,117,0.96));
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.18);
+    }
+
+    .date-card::before {
+      content: '';
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      border-radius: 999px;
+      right: 16px;
+      top: -28px;
+      background: rgba(255,255,255,0.96);
+    }
+
+    .date-center {
+      position: absolute;
+      right: 28px;
+      top: 18px;
+      width: 150px;
+      height: 150px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.96);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #184f9d;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .date-big {
+      font-size: var(--date-big-size);
+      line-height: 0.9;
+      font-weight: 900;
+      color: #f05d1a;
+    }
+
+    .date-sub {
+      margin-top: 6px;
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: #1758a8;
+    }
+
+    .date-note {
+      position: absolute;
+      left: 28px;
+      bottom: 22px;
+      right: 190px;
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: rgba(12,34,68,0.88);
+      z-index: 1;
+      line-height: 1.4;
+    }
+
+    .performer-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .performer-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.18);
+    }
+
+    .performer-thumb {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      background: #ececec;
+      overflow: hidden;
+    }
+
+    .performer-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+    }
+
+    .performer-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      width: 18px;
+      height: 18px;
+      background: #ff4b11;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .performer-body {
+      padding: 14px;
+    }
+
+    .performer-name {
+      margin: 0;
+      font-size: var(--card-title-size);
+      font-weight: 900;
+      color: var(--heading-color);
+    }
+
+    .view-all {
+      margin-top: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 58px;
+      padding: 0 24px;
+      border-radius: 999px;
+      border: 2px solid var(--btn-border);
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      font-size: var(--button-size);
+      font-weight: 800;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .content-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      padding: 24px;
+      min-height: 210px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .content-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 26px rgba(0,0,0,0.18);
+    }
+
+    .content-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--heading-color);
+    }
+
+    .content-card p {
+      margin: 0;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      margin-top: 56px;
+      padding: 28px 0 52px;
+      color: rgba(255,255,255,0.68);
+      text-align: center;
+      font-size: 0.96rem;
+    }
+
+    @media (max-width: 1100px) {
+      .date-grid,
+      .performer-grid,
+      .content-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-inner {
+        width: calc(100% - 48px);
+        padding: 52px 0 52px 24px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .site-nav {
+        justify-content: flex-start;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding: 14px 0;
+      }
+
+      .site-nav a {
+        min-height: 52px;
+        padding: 0 22px;
+        font-size: calc(var(--nav-size) * 0.92);
+      }
+
+      .page {
+        width: calc(100% - 20px);
+      }
+
+      .hero {
+        border-radius: 26px;
+      }
+
+      .hero-inner {
+        width: calc(100% - 28px);
+        padding: 34px 0 34px 18px;
+      }
+
+      .logo-badge {
+        min-width: 132px;
+        min-height: 84px;
+        border-radius: 28px;
+        margin-bottom: 24px;
+      }
+
+      .logo-text {
+        font-size: 1.5rem;
+      }
+
+      .hero-title {
+        font-size: min(18vw, var(--heading-size));
+      }
+
+      .hero-announcement {
+        margin-top: 20px;
+        padding: 18px 22px;
+        font-size: calc(var(--body-size) * 1.18);
+      }
+
+      .hero-lead {
+        margin-top: 28px;
+        font-size: calc(var(--body-size) * 1.18);
+        line-height: 1.65;
+      }
+
+      .hero-actions {
+        margin-top: 28px;
+        gap: 12px;
+      }
+
+      .btn-pill {
+        min-height: 60px;
+        padding: 0 20px;
+        font-size: calc(var(--button-size) * 1.04);
+      }
+
+      .date-grid,
+      .performer-grid,
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .date-card {
+        min-height: 148px;
+      }
+
+      .date-center {
+        width: 118px;
+        height: 118px;
+        right: 14px;
+        top: 16px;
+      }
+
+      .date-big {
+        font-size: calc(var(--date-big-size) * 0.72);
+      }
+
+      .date-sub {
+        font-size: 1.05rem;
+      }
+
+      .date-note {
+        font-size: 1rem;
+        right: 140px;
+      }
+    }
+  </style>
 </head>
-<body data-page="home">
-  <div class="site-nav-wrap"><div id="site-nav" class="site-nav"></div></div>
-  <section class="hero">
-  <div class="hero-inner page-block" id="hero-inner">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <div class="logo-badge" id="logo-badge">MJSS</div>
-      <h1 id="hero-title">MJSS LIVE</h1>
-      <div class="notice" id="hero-announcement">最新情報は順次更新予定です。</div>
-      <div class="lead" id="hero-lead"></div>
-      <div class="actions">
-        <a href="next-performers.html" class="btn">次回参加者を見る</a>
-        <a href="creators.html" class="btn">クリエイターを見る</a>
-        <a href="entry.html" class="btn">参加フォームへ</a>
-      </div>
-    </div>
+<body>
+  <div class="site-nav-wrap">
+    <nav class="site-nav">
+      <a href="index.html">ホーム</a>
+      <a href="concept.html">理念</a>
+      <a href="rules.html">お願い</a>
+      <a href="entry.html">参加フォーム</a>
+      <a href="next-performers.html">次回参加者</a>
+      <a href="past-performers.html">過去参加者</a>
+      <a href="creators.html">クリエイター</a>
+      <a href="staff.html">スタッフ</a>
+      <a href="omake.html">おまけ</a>
+      <a href="works.html">仕事依頼</a>
+    </nav>
   </div>
-</section>
-  <div class="footer">© MJSS</div>
-  <script src="css/site.js"></script>
+
+  <main class="page">
+    <section class="hero" id="heroSection">
+      <div class="hero-inner">
+        <div class="logo-badge" id="heroLogoWrap">
+          <div class="logo-text" id="siteNameText">MJSS</div>
+        </div>
+
+        <h1 class="hero-title" id="heroTitle">MJSS LIVE</h1>
+        <div class="hero-announcement" id="announcementText">最新情報は順次更新予定です。</div>
+        <div class="hero-lead" id="heroLead">音楽、配信、表現が交差するライブイベント。
+出演者、来場者、クリエイターの“好き”がつながる場所。</div>
+
+        <div class="hero-actions">
+          <a class="btn-pill" href="next-performers.html">次回参加者を見る</a>
+          <a class="btn-pill" href="creators.html">クリエイターを見る</a>
+          <a class="btn-pill" href="entry.html">参加フォームへ</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title" id="nextDateTitle">NEXT DATE</h2>
+      <p class="section-sub">次回開催日をこちらでご案内します。</p>
+      <div class="date-grid" id="nextDateGrid"></div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">NEXT PERFORMERS</h2>
+      <p class="section-sub">次回参加者をピックアップ表示しています。</p>
+      <div class="performer-grid" id="homePerformerGrid"></div>
+      <a href="next-performers.html" class="view-all">次回参加者一覧を見る</a>
+    </section>
+
+    <section class="section">
+      <div class="content-grid" id="homeContentGrid"></div>
+    </section>
+
+    <footer class="footer">© MJSS</footer>
+  </main>
+
+  <script>
+    function safe(value, fallback = '') {
+      return value === undefined || value === null || value === '' ? fallback : value;
+    }
+
+    function buildImageUrl(rawImage) {
+      if (!rawImage || typeof rawImage !== 'string') return '';
+      const value = rawImage.trim();
+      if (!value) return '';
+      if (value.startsWith('http://') || value.startsWith('https://')) return value;
+      if (value.startsWith('/')) return value;
+      if (value.startsWith('images/')) return '/' + value;
+      return '/images/uploads/' + value;
+    }
+
+    function applyGlobalStyle(site) {
+      const root = document.documentElement;
+      if (site.font_family) root.style.setProperty('--font-family', site.font_family);
+      if (site.bg_top_color) root.style.setProperty('--bg-top', site.bg_top_color);
+      if (site.bg_bottom_color) root.style.setProperty('--bg-bottom', site.bg_bottom_color);
+      if (site.text_color) root.style.setProperty('--text-color', site.text_color);
+      if (site.heading_color) root.style.setProperty('--heading-color', site.heading_color);
+      if (site.button_text_color) root.style.setProperty('--btn-text', site.button_text_color);
+      if (site.button_border_color) root.style.setProperty('--btn-border', site.button_border_color);
+      if (site.button_bg_color) root.style.setProperty('--btn-bg', site.button_bg_color);
+      if (site.nav_text_color) root.style.setProperty('--nav-text', site.nav_text_color);
+      if (site.nav_border_color) root.style.setProperty('--nav-border', site.nav_border_color);
+      if (site.nav_bg_color) root.style.setProperty('--nav-bg', site.nav_bg_color);
+      if (site.heading_size) root.style.setProperty('--heading-size', site.heading_size);
+      if (site.body_size) root.style.setProperty('--body-size', site.body_size);
+      if (site.nav_size) root.style.setProperty('--nav-size', site.nav_size);
+      if (site.button_size) root.style.setProperty('--button-size', site.button_size);
+    }
+
+    async function loadHome() {
+      const [siteRes, performerRes, conceptRes, worksRes, staffBlogRes] = await Promise.all([
+        fetch('/data/site.json'),
+        fetch('/data/next-performers.json'),
+        fetch('/data/concept-page.json').catch(() => null),
+        fetch('/data/works-page.json').catch(() => null),
+        fetch('/data/staff-blog.json').catch(() => null)
+      ]);
+
+      const site = await siteRes.json();
+      const performersData = await performerRes.json();
+      const conceptData = conceptRes && conceptRes.ok ? await conceptRes.json() : null;
+      const worksData = worksRes && worksRes.ok ? await worksRes.json() : null;
+      const staffBlogData = staffBlogRes && staffBlogRes.ok ? await staffBlogRes.json() : null;
+
+      applyGlobalStyle(site);
+
+      document.getElementById('siteNameText').textContent = safe(site.site_name, 'MJSS');
+      document.getElementById('heroTitle').textContent = safe(site.hero_title, 'MJSS LIVE');
+      document.getElementById('announcementText').textContent = safe(site.announcement, '最新情報は順次更新予定です。');
+      document.getElementById('heroLead').textContent = safe(site.hero_lead, '音楽、配信、表現が交差するライブイベント。');
+      document.getElementById('nextDateTitle').textContent = safe(site.next_date_label, 'NEXT DATE');
+
+      const logo = buildImageUrl(site.hero_logo_image);
+      if (logo) {
+        document.getElementById('heroLogoWrap').innerHTML = `<img src="${logo}" alt="${safe(site.site_name, 'MJSS')} ロゴ">`;
+      }
+
+      const heroBg = buildImageUrl(site.hero_bg_image);
+      if (heroBg) {
+        const hero = document.getElementById('heroSection');
+        hero.style.backgroundImage = `linear-gradient(90deg, rgba(5,22,53,0.88), rgba(4,22,53,0.70)), url('${heroBg}')`;
+        hero.style.backgroundSize = 'cover';
+        hero.style.backgroundPosition = 'center center';
+      }
+
+      const dateGrid = document.getElementById('nextDateGrid');
+      const dates = [
+        { date: site.next_date_1, sub: site.next_date_1_sub, note: site.next_date_1_note },
+        { date: site.next_date_2, sub: site.next_date_2_sub, note: site.next_date_2_note },
+        { date: site.next_date_3, sub: site.next_date_3_sub, note: site.next_date_3_note }
+      ].filter(item => item.date || item.sub || item.note);
+
+      if (dates.length === 0) {
+        dateGrid.innerHTML = `
+          <div class="date-card"><div class="date-center"><div class="date-big">00</div><div class="date-sub">DAY</div></div><div class="date-note">開催情報準備中</div></div>
+          <div class="date-card"><div class="date-center"><div class="date-big">00</div><div class="date-sub">DAY</div></div><div class="date-note">開催情報準備中</div></div>
+          <div class="date-card"><div class="date-center"><div class="date-big">00</div><div class="date-sub">DAY</div></div><div class="date-note">開催情報準備中</div></div>
+        `;
+      } else {
+        dateGrid.innerHTML = dates.map(item => `
+          <div class="date-card">
+            <div class="date-center">
+              <div class="date-big">${safe(item.date, '--')}</div>
+              <div class="date-sub">${safe(item.sub, '')}</div>
+            </div>
+            <div class="date-note">${safe(item.note, '')}</div>
+          </div>
+        `).join('');
+      }
+
+      const performerGrid = document.getElementById('homePerformerGrid');
+      const performers = Array.isArray(performersData.items) ? performersData.items.slice(0, 6) : [];
+      performerGrid.innerHTML = performers.map(item => {
+        const image = buildImageUrl(item.image);
+        return `
+          <article class="performer-card">
+            <div class="performer-thumb">
+              ${image ? `<img src="${image}" alt="${safe(item.name, '')}">` : ''}
+              <div class="performer-badge">N</div>
+            </div>
+            <div class="performer-body">
+              <h3 class="performer-name">${safe(item.name, '')}</h3>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      const contentGrid = document.getElementById('homeContentGrid');
+      const blogBody = safe(staffBlogData?.items?.[0]?.body, '運営からのお知らせや裏話を掲載予定です。');
+      const cards = [
+        {
+          title: safe(conceptData?.title, '理念'),
+          body: safe(conceptData?.body, 'MJSSが大切にしている考え方をご紹介します。'),
+          href: 'concept.html'
+        },
+        {
+          title: safe(worksData?.title, '仕事依頼'),
+          body: safe(worksData?.body, 'ご依頼やコラボのご相談はこちらから。'),
+          href: 'works.html'
+        },
+        {
+          title: safe(staffBlogData?.items?.[0]?.title, 'スタッフブログ'),
+          body: blogBody.slice(0, 120) + (blogBody.length > 120 ? '...' : ''),
+          href: 'omake.html'
+        }
+      ];
+
+      contentGrid.innerHTML = cards.map(card => `
+        <a class="content-card" href="${card.href}">
+          <h3>${card.title}</h3>
+          <p>${card.body}</p>
+        </a>
+      `).join('');
+    }
+
+    loadHome().catch(console.error);
+  </script>
 </body>
 </html>
