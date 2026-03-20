@@ -1,22 +1,283 @@
 <!DOCTYPE html>
-<html lang="ja"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>MJSS | ホーム</title><link rel="stylesheet" href="css/style.css" /></head>
-<body>
-<header class="topbar"><div class="container topbar-inner"><a class="brand" href="index.html">MJSS</a><nav class="nav"><a class="active" href="index.html">ホーム</a><a href="concept.html">ライブ理念</a><a href="rules.html">お願い</a><a href="entry.html">参加フォーム</a><a href="next-performers.html">次回参加者</a><a href="past-performers.html">過去参加者</a><a href="creators.html">クリエイター</a><a href="works.html">仕事依頼</a></nav></div></header>
-<main>
-<section class="hero"><div class="container hero-grid"><div class="hero-main card"><div class="eyebrow">Music Junkie Streamers</div><h1 id="hero-title">MJSS LIVE</h1><p id="hero-lead" class="lead">音楽、配信、表現が交差するライブイベント。出演者、来場者、クリエイターの“好き”がつながる場所。</p><div class="actions"><a class="btn btn-primary" href="next-performers.html">次回参加者を見る</a><a class="btn btn-secondary" href="entry.html">参加フォームへ</a></div></div><aside class="hero-side card"><div class="side-stack"><div class="stat"><strong>ライブ理念</strong><span class="muted">好きと表現がつながる場所をつくる</span></div><div class="stat"><strong>参加方法</strong><span class="muted">フォーム送信 → 運営確認 → ご案内</span></div><div class="stat"><strong>お知らせ</strong><span id="announcement" class="muted">出演者情報や詳細は順次公開予定です。</span></div></div></aside></div></section>
-<section><div class="container"><div class="section-head"><h2>サイトメニュー</h2><p class="muted">まずは骨組みを作り、あとから本文や画像を肉付けしていける構成です。</p></div><div class="grid-4"><a class="link-card" href="concept.html"><div class="kicker">01</div><h3>ライブ理念</h3><p class="muted">イベントの考え方を紹介するページ。</p></a><a class="link-card" href="rules.html"><div class="kicker">02</div><h3>お願い</h3><p class="muted">来場者向けの注意事項ページ。</p></a><a class="link-card" href="next-performers.html"><div class="kicker">03</div><h3>次回参加者</h3><p class="muted">立ち絵・X・紹介文を載せるページ。</p></a><a class="link-card" href="past-performers.html"><div class="kicker">04</div><h3>過去参加者</h3><p class="muted">実績感を見せるアーカイブページ。</p></a><a class="link-card" href="creators.html"><div class="kicker">05</div><h3>クリエイター</h3><p class="muted">制作陣や協力者の紹介ページ。</p></a><a class="link-card" href="works.html"><div class="kicker">06</div><h3>仕事依頼</h3><p class="muted">ポートフォリオや依頼導線のページ。</p></a><a class="link-card" href="entry.html"><div class="kicker">07</div><h3>参加フォーム</h3><p class="muted">出演・問い合わせの入口。</p></a><a class="link-card" href="https://app.pagescms.org"><div class="kicker">08</div><h3>編集画面</h3><p class="muted">Pages CMS から直感的に編集。</p></a></div></div></section>
-</main><footer><div class="container"><p>© MJSS</p></div></footer>
-<script>
-async function loadSiteData() {
-  try {
-    const res = await fetch('data/site.json');
-    const data = await res.json();
-    if (data.hero_title) document.getElementById('hero-title').textContent = data.hero_title;
-    if (data.hero_lead) document.getElementById('hero-lead').textContent = data.hero_lead;
-    if (data.announcement) document.getElementById('announcement').textContent = data.announcement;
-    if (data.site_name) document.title = `${data.site_name} | ホーム`;
-  } catch (e) {}
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>MJSS | HOME</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(80,120,255,0.18), transparent 30%),
+        radial-gradient(circle at top right, rgba(0,180,255,0.12), transparent 30%),
+        linear-gradient(180deg, #071326, #0b1d3a);
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    .top-nav {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 20px 0;
 }
-loadSiteData();
-</script>
-</body></html>
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.nav-btn {
+  display: inline-block;
+  padding: 10px 18px;
+  border: 1px solid rgba(255,255,255,0.7);
+  border-radius: 999px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  background: rgba(255,255,255,0.04);
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.nav-btn:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: #fff;
+  transform: translateY(-1px);
+}
+
+    .hero {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 20px 40px;
+    }
+
+    .hero-card {
+      border-radius: 24px;
+      min-height: 420px;
+      overflow: hidden;
+      position: relative;
+      background:
+        linear-gradient(rgba(7,19,38,0.55), rgba(11,29,58,0.72)),
+        linear-gradient(135deg, rgba(80,120,255,0.22), rgba(0,180,255,0.10));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.35);
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .hero-inner {
+      padding: 36px 28px;
+      width: 100%;
+      backdrop-filter: blur(3px);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin: 0 0 16px;
+      line-height: 1.1;
+    }
+
+    .lead {
+      font-size: 1.12rem;
+      line-height: 1.8;
+      max-width: 720px;
+      margin: 0 0 20px;
+      white-space: pre-wrap;
+    }
+
+    .announcement {
+      display: inline-block;
+      padding: 12px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+      margin-bottom: 20px;
+      white-space: pre-wrap;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .hero-btn {
+      display: inline-block;
+      padding: 12px 20px;
+      border-radius: 999px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      border: 1px solid rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.06);
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .hero-btn:hover {
+      background: rgba(255,255,255,0.16);
+      transform: translateY(-1px);
+    }
+
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      text-decoration: none;
+      color: #fff;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.35);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+    }
+
+    .card p {
+      margin: 0;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.88);
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding-top: 16px;
+      }
+      .hero-card {
+        min-height: 380px;
+      }
+      .hero-inner {
+        padding: 28px 20px;
+      }
+      h1 {
+        font-size: 2.2rem;
+      }
+      .lead {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="top-nav">
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn">ホーム</a>
+      <a href="concept.html" class="nav-btn">理念</a>
+      <a href="rules.html" class="nav-btn">お願い</a>
+      <a href="entry.html" class="nav-btn">参加フォーム</a>
+      <a href="next-performers.html" class="nav-btn">次回参加者</a>
+      <a href="past-performers.html" class="nav-btn">過去参加者</a>
+      <a href="creators.html" class="nav-btn">クリエイター</a>
+      <a href="works.html" class="nav-btn">仕事依頼</a>
+    </div>
+  </div>
+  <section class="hero">
+    <div class="hero-card" id="hero-card">
+      <div class="hero-inner">
+        <div class="eyebrow" id="site-name">MJSS</div>
+        <h1 id="hero-title">MJSS LIVE</h1>
+        <div class="announcement" id="announcement">お知らせをここに表示</div>
+        <p class="lead" id="hero-lead">トップ説明文</p>
+        <div class="hero-actions">
+          <a class="hero-btn" href="next-performers.html">次回参加者を見る</a>
+          <a class="hero-btn" href="creators.html">クリエイターを見る</a>
+          <a class="hero-btn" href="entry.html">参加フォームへ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="grid">
+      <a href="concept.html" class="card">
+        <h2>ライブ理念</h2>
+        <p>イベントの考え方や目指す空気感をまとめるページ。</p>
+      </a>
+      <a href="rules.html" class="card">
+        <h2>お客さんへのお願い</h2>
+        <p>来場者向けのルールや注意事項を案内するページ。</p>
+      </a>
+      <a href="next-performers.html" class="card">
+        <h2>次回参加者</h2>
+        <p>最新の出演者情報や立ち絵をまとめて見せるページ。</p>
+      </a>
+      <a href="past-performers.html" class="card">
+        <h2>過去参加者</h2>
+        <p>過去の出演者や実績を見せるためのページ。</p>
+      </a>
+      <a href="creators.html" class="card">
+        <h2>クリエイター</h2>
+        <p>関わるクリエイターや作品紹介をまとめるページ。</p>
+      </a>
+      <a href="works.html" class="card">
+        <h2>ポートフォリオ / 仕事依頼</h2>
+        <p>制作実績や外部依頼導線をまとめるページ。</p>
+      </a>
+    </div>
+  </section>
+
+  <script>
+    function buildImageUrl(rawImage) {
+      if (!rawImage || typeof rawImage !== 'string') return '';
+      const value = rawImage.trim();
+      if (!value) return '';
+      if (value.startsWith('http://') || value.startsWith('https://')) return value;
+      if (value.startsWith('/')) return value;
+      if (value.startsWith('images/')) return '/' + value;
+      return '/images/uploads/' + value;
+    }
+
+    async function loadSiteData() {
+      try {
+        const res = await fetch('/data/site.json');
+        const data = await res.json();
+
+        document.getElementById('site-name').textContent = data.site_name || 'MJSS';
+        document.getElementById('hero-title').textContent = data.hero_title || 'MJSS LIVE';
+        document.getElementById('hero-lead').textContent = data.hero_lead || 'トップ説明文';
+        document.getElementById('announcement').textContent = data.announcement || 'お知らせをここに表示';
+
+        const heroBg = buildImageUrl(data.hero_background || '');
+        if (heroBg) {
+          document.getElementById('hero-card').style.background =
+            `linear-gradient(rgba(7,19,38,0.55), rgba(11,29,58,0.72)), url('${heroBg}') center/cover no-repeat`;
+        }
+      } catch (error) {
+        console.error('site.json の読み込みに失敗:', error);
+      }
+    }
+
+    loadSiteData();
+  </script>
+</body>
+</html>

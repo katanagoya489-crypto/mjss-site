@@ -1,12 +1,95 @@
 <!DOCTYPE html>
-<html lang="ja"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>MJSS | 仕事依頼</title><link rel="stylesheet" href="css/style.css" /></head>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>ポートフォリオ / 仕事依頼 | MJSS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(80,120,255,0.18), transparent 30%),
+        radial-gradient(circle at top right, rgba(0,180,255,0.12), transparent 30%),
+        linear-gradient(180deg, #071326, #0b1d3a);
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    .top-nav {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 20px 0;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.nav-btn {
+  display: inline-block;
+  padding: 10px 18px;
+  border: 1px solid rgba(255,255,255,0.7);
+  border-radius: 999px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  background: rgba(255,255,255,0.04);
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.nav-btn:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: #fff;
+  transform: translateY(-1px);
+}
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 20px 40px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: 2rem;
+    }
+
+    p {
+      margin: 0;
+      line-height: 1.8;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="brand" href="index.html">MJSS</a><nav class="nav"><a href="index.html">ホーム</a><a href="concept.html">ライブ理念</a><a href="rules.html">お願い</a><a href="entry.html">参加フォーム</a><a href="next-performers.html">次回参加者</a><a href="past-performers.html">過去参加者</a><a href="creators.html">クリエイター</a><a class="active" href="works.html">仕事依頼</a></nav></div></header>
-<main>
-<section class="page-hero"><div class="container"><div class="section-card card"><div class="kicker">Portfolio & Works</div><h1>ポートフォリオ / 外部仕事受付ページ</h1><p class="lead">作品一覧を見せる導線と、隙間や外部仕事などの依頼先へ飛ばすためのページです。</p></div></div></section>
-<section><div class="container grid-2">
-<article class="link-card"><h3>ポートフォリオを見る</h3><p class="muted">作品一覧、実績、外部媒体、SNSリンクなどを後でまとめる場所です。</p><div class="placeholder-block">作品サムネイル枠</div><div class="button-row"><a class="btn btn-primary" href="#">作品一覧へ</a></div></article>
-<article class="link-card"><h3>お仕事依頼はこちら</h3><p class="muted">外部仕事、案件相談、コラボ相談などの導線を置く場所です。</p><div class="chip-row"><span class="chip">外部案件</span><span class="chip">コラボ</span><span class="chip">制作依頼</span><span class="chip">ライブ相談</span></div><div class="button-row"><a class="btn btn-secondary" href="entry.html">依頼フォームへ</a><a class="btn btn-secondary" href="#">外部窓口へ</a></div></article>
-</div></section>
-</main><footer><div class="container"><p>© MJSS</p></div></footer>
-</body></html>
+<div class="top-nav">
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn">ホーム</a>
+      <a href="concept.html" class="nav-btn">理念</a>
+      <a href="rules.html" class="nav-btn">お願い</a>
+      <a href="entry.html" class="nav-btn">参加フォーム</a>
+      <a href="next-performers.html" class="nav-btn">次回参加者</a>
+      <a href="past-performers.html" class="nav-btn">過去参加者</a>
+      <a href="creators.html" class="nav-btn">クリエイター</a>
+      <a href="works.html" class="nav-btn">仕事依頼</a>
+    </div>
+  </div>
+  <div class="container">
+    <div class="card">
+      <h1>ポートフォリオ / 仕事依頼</h1>
+      <p>ここにポートフォリオや仕事依頼導線を書く。</p>
+    </div>
+  </div>
+</body>
+</html>

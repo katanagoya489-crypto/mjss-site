@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>次回参加者 | MJSS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <style>
     body {
       margin: 0;
@@ -16,10 +15,40 @@
       color: #fff;
     }
 
+    .top-nav {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 20px 0;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.nav-btn {
+  display: inline-block;
+  padding: 10px 18px;
+  border: 1px solid rgba(255,255,255,0.7);
+  border-radius: 999px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  background: rgba(255,255,255,0.04);
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.nav-btn:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: #fff;
+  transform: translateY(-1px);
+}
+
     .container {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 40px 20px;
+      padding: 24px 20px 40px;
     }
 
     h1 {
@@ -105,43 +134,21 @@
       border-color: #fff;
       transform: translateY(-1px);
     }
-
-    @media (max-width: 768px) {
-      .container {
-        padding: 28px 16px;
-      }
-
-      h1 {
-        font-size: 1.8rem;
-        margin-bottom: 22px;
-      }
-
-      .grid {
-        gap: 18px;
-      }
-
-      .thumb {
-        height: 280px;
-      }
-
-      .card h3 {
-        font-size: 1.5rem;
-      }
-
-      .card p {
-        font-size: 1.02rem;
-        line-height: 1.7;
-      }
-
-      .btn {
-        padding: 9px 16px;
-        font-size: 0.95rem;
-      }
-    }
   </style>
 </head>
-
 <body>
+<div class="top-nav">
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn">ホーム</a>
+      <a href="concept.html" class="nav-btn">理念</a>
+      <a href="rules.html" class="nav-btn">お願い</a>
+      <a href="entry.html" class="nav-btn">参加フォーム</a>
+      <a href="next-performers.html" class="nav-btn">次回参加者</a>
+      <a href="past-performers.html" class="nav-btn">過去参加者</a>
+      <a href="creators.html" class="nav-btn">クリエイター</a>
+      <a href="works.html" class="nav-btn">仕事依頼</a>
+    </div>
+  </div>
   <div class="container">
     <h1>次回参加者</h1>
     <div class="grid" id="list"></div>
@@ -150,22 +157,11 @@
   <script>
     function buildImageUrl(rawImage) {
       if (!rawImage || typeof rawImage !== 'string') return '';
-
       const value = rawImage.trim();
       if (!value) return '';
-
-      if (value.startsWith('http://') || value.startsWith('https://')) {
-        return value;
-      }
-
-      if (value.startsWith('/')) {
-        return value;
-      }
-
-      if (value.startsWith('images/')) {
-        return '/' + value;
-      }
-
+      if (value.startsWith('http://') || value.startsWith('https://')) return value;
+      if (value.startsWith('/')) return value;
+      if (value.startsWith('images/')) return '/' + value;
       return '/images/uploads/' + value;
     }
 
@@ -175,31 +171,21 @@
         const data = await res.json();
         const list = Array.isArray(data.items) ? data.items : [];
         const container = document.getElementById('list');
-
         container.innerHTML = '';
 
         list.forEach(item => {
           const img = buildImageUrl(item.image);
-
           const el = document.createElement('div');
           el.className = 'card';
-
           el.innerHTML = `
             <div class="thumb">
-              ${
-                img
-                  ? `<img src="${img}" alt="${item.name || ''}" class="thumb-image">`
-                  : '立ち絵枠'
-              }
+              ${img ? `<img src="${img}" alt="${item.name || ''}" class="thumb-image">` : '立ち絵枠'}
             </div>
-
             <h3>${item.name || ''}</h3>
             <p>${item.description || ''}</p>
-
             ${item.x_url ? `<a class="btn" href="${item.x_url}" target="_blank" rel="noopener noreferrer">Xを見る</a>` : ''}
             ${item.media_url && item.media_url !== '#' ? `<a class="btn" href="${item.media_url}" target="_blank" rel="noopener noreferrer">媒体を見る</a>` : ''}
           `;
-
           container.appendChild(el);
         });
       } catch (error) {

@@ -1,52 +1,199 @@
 <!DOCTYPE html>
-<html lang="ja"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>MJSS | 過去参加者</title><link rel="stylesheet" href="css/style.css" /></head>
-<body>
-<header class="topbar"><div class="container topbar-inner"><a class="brand" href="index.html">MJSS</a><nav class="nav"><a href="index.html">ホーム</a><a href="concept.html">ライブ理念</a><a href="rules.html">お願い</a><a href="entry.html">参加フォーム</a><a href="next-performers.html">次回参加者</a><a class="active" href="past-performers.html">過去参加者</a><a href="creators.html">クリエイター</a><a href="works.html">仕事依頼</a></nav></div></header>
-<main>
-<section class="page-hero"><div class="container"><div class="section-card card"><div class="kicker">Past Performers</div><h1>過去参加者の紹介ページ</h1><p class="lead">このページは管理画面から更新できます。名前・紹介文・画像・リンクを保存すると反映されます。</p></div></div></section>
-<section><div class="container"><div id="past-performers-grid" class="grid-3"></div></div></section>
-</main><footer><div class="container"><p>© MJSS</p></div></footer>
-<script>
-function escapeHtml(v='') {
-  return String(v).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
-}
-function normalizeImagePath(path='') {
-  if (!path) return '';
-  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('/')) return path;
-  return '/' + path.replace(/^\.\//, '');
-}
-function renderTags(tags) {
-  if (!Array.isArray(tags) || !tags.length) return '';
-  return `<div class="chip-row">${tags.map(tag => `<span class="chip">${escapeHtml(tag)}</span>`).join('')}</div>`;
-}
-async function loadPastPerformers() {
-  const grid = document.getElementById('past-performers-grid');
-  try {
-    const res = await fetch('data/past-performers.json?ts=' + Date.now());
-    const data = await res.json();
-    const items = Array.isArray(data.items) ? data.items : [];
-    if (!items.length) {
-      grid.innerHTML = '<div class="profile-grid-empty card">まだ過去参加者が登録されていません。</div>';
-      return;
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>過去参加者 | MJSS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(80,120,255,0.18), transparent 30%),
+        radial-gradient(circle at top right, rgba(0,180,255,0.12), transparent 30%),
+        linear-gradient(180deg, #071326, #0b1d3a);
+      color: #fff;
     }
-    grid.innerHTML = items.map(item => {
-      const img = normalizeImagePath(item.image || '');
-      return `
-      <article class="profile-card">
-        <div class="thumb">${img ? `<img src="${img}" alt="${escapeHtml(item.name || '')}">` : '立ち絵枠'}</div>
-        <h3>${escapeHtml(item.name || '')}</h3>
-        ${renderTags(item.tags)}
-        <p class="muted">${escapeHtml(item.description || '')}</p>
-        <div class="button-row">
-          ${item.x_url ? `<a class="btn btn-secondary" href="${escapeHtml(item.x_url)}" target="_blank" rel="noopener noreferrer">Xを見る</a>` : ''}
-          ${item.media_url && item.media_url !== '#' ? `<a class="btn btn-secondary" href="${escapeHtml(item.media_url)}" target="_blank" rel="noopener noreferrer">媒体を見る</a>` : ''}
-        </div>
-      </article>`;
-    }).join('');
-  } catch (e) {
-    grid.innerHTML = '<div class="profile-grid-empty card">読み込みに失敗しました。</div>';
-  }
+
+    .top-nav {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 20px 0;
 }
-loadPastPerformers();
-</script>
-</body></html>
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.nav-btn {
+  display: inline-block;
+  padding: 10px 18px;
+  border: 1px solid rgba(255,255,255,0.7);
+  border-radius: 999px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  background: rgba(255,255,255,0.04);
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.nav-btn:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: #fff;
+  transform: translateY(-1px);
+}
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 20px 40px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 28px;
+      letter-spacing: 0.02em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      align-items: start;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      backdrop-filter: blur(8px);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.5);
+    }
+
+    .thumb {
+      width: 100%;
+      height: 340px;
+      border-radius: 16px;
+      background-color: #334;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.9);
+      font-weight: bold;
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .thumb-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center bottom;
+      display: block;
+    }
+
+    .card h3 {
+      margin: 0 0 12px;
+      font-size: 1.8rem;
+      line-height: 1.3;
+    }
+
+    .card p {
+      margin: 0 0 18px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.92);
+      font-size: 1.15rem;
+      white-space: pre-wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 10px;
+      margin-right: 10px;
+      padding: 10px 18px;
+      border: 1px solid rgba(255,255,255,0.7);
+      border-radius: 999px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      background: rgba(255,255,255,0.04);
+      transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: #fff;
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+<div class="top-nav">
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn">ホーム</a>
+      <a href="concept.html" class="nav-btn">理念</a>
+      <a href="rules.html" class="nav-btn">お願い</a>
+      <a href="entry.html" class="nav-btn">参加フォーム</a>
+      <a href="next-performers.html" class="nav-btn">次回参加者</a>
+      <a href="past-performers.html" class="nav-btn">過去参加者</a>
+      <a href="creators.html" class="nav-btn">クリエイター</a>
+      <a href="works.html" class="nav-btn">仕事依頼</a>
+    </div>
+  </div>
+  <div class="container">
+    <h1>過去参加者</h1>
+    <div class="grid" id="list"></div>
+  </div>
+
+  <script>
+    function buildImageUrl(rawImage) {
+      if (!rawImage || typeof rawImage !== 'string') return '';
+      const value = rawImage.trim();
+      if (!value) return '';
+      if (value.startsWith('http://') || value.startsWith('https://')) return value;
+      if (value.startsWith('/')) return value;
+      if (value.startsWith('images/')) return '/' + value;
+      return '/images/uploads/' + value;
+    }
+
+    async function load() {
+      try {
+        const res = await fetch('/data/past-performers.json');
+        const data = await res.json();
+        const list = Array.isArray(data.items) ? data.items : [];
+        const container = document.getElementById('list');
+        container.innerHTML = '';
+
+        list.forEach(item => {
+          const img = buildImageUrl(item.image);
+          const el = document.createElement('div');
+          el.className = 'card';
+          el.innerHTML = `
+            <div class="thumb">
+              ${img ? `<img src="${img}" alt="${item.name || ''}" class="thumb-image">` : '立ち絵枠'}
+            </div>
+            <h3>${item.name || ''}</h3>
+            <p>${item.description || ''}</p>
+            ${item.x_url ? `<a class="btn" href="${item.x_url}" target="_blank" rel="noopener noreferrer">Xを見る</a>` : ''}
+            ${item.media_url && item.media_url !== '#' ? `<a class="btn" href="${item.media_url}" target="_blank" rel="noopener noreferrer">媒体を見る</a>` : ''}
+          `;
+          container.appendChild(el);
+        });
+      } catch (error) {
+        console.error('過去参加者データの読み込みに失敗:', error);
+      }
+    }
+
+    load();
+  </script>
+</body>
+</html>
