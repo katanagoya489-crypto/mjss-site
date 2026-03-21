@@ -765,7 +765,13 @@
 
       function resolveApiBase() {
         const query = new URLSearchParams(window.location.search).get('api') || '';
-        const raw = query || state.config.ranking?.api_base || window.INVADER_API_BASE || window.localStorage.getItem('mjss_invader_api_base') || window.location.origin || '';
+        const raw = query
+          || state.config.ranking?.api_base
+          || window.INVADER_API_BASE
+          || window.localStorage.getItem('mjss_invader_api_base')
+          || FALLBACK_API_BASE
+          || window.location.origin
+          || '';
         return String(raw).replace(/\/$/, '');
       }
 
