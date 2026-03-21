@@ -82,10 +82,10 @@
       align-items: center;
       justify-content: center;
       min-height: 44px;
-      padding: 0 16px;
-      border-radius: 14px;
+      padding: 10px 14px;
+      border-radius: 12px;
       border: 1px solid var(--panel-border);
-      background: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.1);
       color: var(--text);
       text-decoration: none;
       font-weight: 700;
@@ -93,7 +93,7 @@
     }
 
     .home-link:hover {
-      background: rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.14);
     }
 
     button {
@@ -383,7 +383,7 @@
     <section class="panel topbar">
       <div class="titlebox">
         <h1 id="pageTitle">MJSS インベーダー</h1>
-        <p id="pageLead">画像の差し替えは裏側の JSON / CMS で管理。表側では BGM / SE の音量だけ調整できます。操作は横ドラッグ対応です。</p>
+        <p id="pageLead">音量調整とランキング登録ができます。操作は横ドラッグ対応です。</p>
       </div>
       <div class="top-actions">
         <a class="home-link" href="/index.html">ホームへ</a>
@@ -426,8 +426,8 @@
     <aside class="panel audio-panel">
       <h2 style="margin:0; font-size:20px;">サウンド設定</h2>
       <p class="note" style="margin:0;">
-        ここで触れるのは <strong>BGM / SE の音量だけ</strong> です。<br>
-        自機・敵・弾・背景などの画像差し替えは、裏側の <code>data/invader-config.json</code> と Pages CMS で行ってください。
+        ここでは <strong>BGM / SE の音量</strong> を調整できます。<br>
+        ランキング名の保存と更新もできます。
       </p>
 
       <div class="audio-card">
@@ -463,15 +463,15 @@
           </div>
         </div>
 
-        <div id="rankingStatus" class="rank-status">ランキング接続待ち</div>
+        <div id="rankingStatus" class="rank-status">ランキング読み込み中</div>
         <ol id="leaderboardList" class="leaderboard">
           <li><span class="rank-no">-</span><span class="rank-meta"><span class="rank-name">読み込み中...</span><span class="rank-wave">しばらく待ってください</span></span><span class="rank-score">--</span></li>
         </ol>
       </section>
 
       <div class="mini-list">
-        <div><strong>表側で調整:</strong> BGM / SE の音量、ランキング名</div>
-        <div><strong>裏側で変更:</strong> 画像・音源ファイルのパス差し替え</div>
+        <div><strong>音量:</strong> BGM / SE の音量を調整できます</div>
+        <div><strong>名前:</strong> ランキングに表示する名前を保存できます</div>
         <div><strong>操作:</strong> 左右キー / A,D / スペース / スマホボタン / 横ドラッグ</div>
         <div><strong>進行:</strong> WAVE 2 以降は敵配置が毎回ランダム</div>
       </div>
@@ -765,13 +765,7 @@
 
       function resolveApiBase() {
         const query = new URLSearchParams(window.location.search).get('api') || '';
-        const raw = query
-          || state.config.ranking?.api_base
-          || window.INVADER_API_BASE
-          || window.localStorage.getItem('mjss_invader_api_base')
-          || FALLBACK_API_BASE
-          || window.location.origin
-          || '';
+        const raw = query || state.config.ranking?.api_base || window.INVADER_API_BASE || window.localStorage.getItem('mjss_invader_api_base') || window.location.origin || '';
         return String(raw).replace(/\/$/, '');
       }
 
@@ -831,7 +825,7 @@
         } catch (error) {
           console.warn(error);
           renderLeaderboard([]);
-          setRankingStatus('ランキングAPI未接続。server/ を Railway に入れると反映されます。', 'error');
+          setRankingStatus('ランキングを読み込めませんでした。少し待って更新を押してください。', 'error');
         }
       }
 
@@ -871,7 +865,7 @@
           }
         } catch (error) {
           console.warn(error);
-          setRankingStatus('スコア送信失敗。ランキングAPIを確認してください。', 'error');
+          setRankingStatus('スコアを登録できませんでした。少し待ってもう一度お試しください。', 'error');
         } finally {
           state.rankingPending = false;
         }
