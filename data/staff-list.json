@@ -1,10 +1,27 @@
 {
   "items": [
     {
+      "name": "赫音万化",
+      "role": "主催",
+      "description": "強いとにかく強い　",
+      "image": "/images/uploads/IMG_1419.jpg"
+    },
+    {
       "name": "虹守コウ",
       "role": "福主催　音響及び映像担当　HP管理",
       "description": "MJSS福主催　及び何でも屋の虹守です。\nどこよりも楽しいライブづくりを目指して運営しております。\n会場で会ったら気軽にお声がけくださいね　",
       "image": "/images/uploads/虹守コウ.png"
+    },
+    {
+      "name": "香珀依音",
+      "role": "マネージャー　スタッフ",
+      "description": "もはや！母！",
+      "image": "/images/uploads/Fearless.png"
+    },
+    {
+      "name": "青羽　湊音",
+      "role": "動画　ミックス関係　アドバイザー　スタッフ",
+      "description": "何でもできるぞ！　"
     }
   ]
 }
