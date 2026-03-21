@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>お問い合わせ | MJSS</title>
+  <meta name="description" content="MJSSへのお問い合わせフォームです。" />
+  <style>
+    :root {
+      --bg: #08111f;
+      --panel: rgba(255,255,255,0.08);
+      --panel-strong: rgba(255,255,255,0.12);
+      --border: rgba(255,255,255,0.16);
+      --text: #ffffff;
+      --muted: rgba(255,255,255,0.72);
+      --accent: #76d6ff;
+      --danger: #ff8f8f;
+      --ok: #96f0b7;
+      --shadow: 0 16px 40px rgba(0,0,0,0.28);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(118,214,255,0.18), transparent 32%),
+        linear-gradient(180deg, #091321 0%, #060c16 100%);
+    }
+
+    a { color: var(--text); }
+
+    .page {
+      width: min(100%, 1120px);
+      margin: 0 auto;
+      padding: 18px 16px 40px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.08);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .nav-link:hover {
+      background: rgba(255,255,255,0.12);
+    }
+
+    .hero, .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero {
+      padding: 28px 22px;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(118,214,255,0.12);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 14px 0 10px;
+      font-size: clamp(28px, 5vw, 44px);
+      line-height: 1.1;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 15px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+      gap: 18px;
+    }
+
+    .panel {
+      padding: 22px;
+    }
+
+    .section-title {
+      margin: 0 0 6px;
+      font-size: 22px;
+    }
+
+    .section-sub {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    form {
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .required {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .required .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 20px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: rgba(255,94,94,0.16);
+      color: #ffb2b2;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      padding: 14px 14px;
+      font: inherit;
+      outline: none;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: rgba(255,255,255,0.42);
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(118,214,255,0.7);
+      box-shadow: 0 0 0 4px rgba(118,214,255,0.16);
+    }
+
+    textarea {
+      min-height: 180px;
+      resize: vertical;
+    }
+
+    .check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-weight: 500;
+    }
+
+    .check input {
+      width: 18px;
+      height: 18px;
+      padding: 0;
+      margin-top: 2px;
+      flex: 0 0 auto;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    button {
+      appearance: none;
+      border: 0;
+      border-radius: 14px;
+      min-height: 48px;
+      padding: 0 18px;
+      background: linear-gradient(135deg, #8ae2ff 0%, #61bfff 100%);
+      color: #07111d;
+      font-weight: 900;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(97,191,255,0.28);
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      transform: none;
+      cursor: wait;
+    }
+
+    .ghost {
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      box-shadow: none;
+      border: 1px solid var(--border);
+    }
+
+    .status {
+      min-height: 24px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .status.error { color: var(--danger); }
+    .status.ok { color: var(--ok); }
+
+    .info-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .info-card {
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .info-card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .info-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 13px;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      color: rgba(255,255,255,0.6);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 860px) {
+      .layout { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <a class="nav-link" href="/index.html">ホームへ</a>
+      <a class="nav-link" href="/entry.html">参加フォームへ</a>
+    </div>
+
+    <section class="hero">
+      <span class="eyebrow">Contact</span>
+      <h1 id="pageTitle">お問い合わせ</h1>
+      <p id="pageLead">イベントや出演、制作依頼、コラボ、各種ご相談はこちらからご連絡ください。</p>
+    </section>
+
+    <div class="layout">
+      <section class="panel">
+        <h2 class="section-title">フォーム入力</h2>
+        <p class="section-sub" id="formLead">必要事項をご入力のうえ送信してください。内容を確認のうえ、順番にご連絡いたします。</p>
+
+        <form id="contactForm" novalidate>
+          <div class="grid-2">
+            <label>
+              <span class="required">お名前 <span class="tag">必須</span></span>
+              <input type="text" name="name" id="name" placeholder="例：山田 太郎" required />
+            </label>
+
+            <label>
+              <span class="required">メールアドレス <span class="tag">必須</span></span>
+              <input type="email" name="email" id="email" placeholder="example@mail.com" required />
+            </label>
+          </div>
+
+          <div class="grid-2">
+            <label>
+              <span class="required">お問い合わせ種別 <span class="tag">必須</span></span>
+              <select name="category" id="category" required>
+                <option value="">選択してください</option>
+              </select>
+            </label>
+
+            <label>
+              <span>団体名・活動名</span>
+              <input type="text" name="organization" id="organization" placeholder="任意" />
+            </label>
+          </div>
+
+          <label>
+            <span class="required">件名 <span class="tag">必須</span></span>
+            <input type="text" name="subject" id="subject" placeholder="お問い合わせの件名" required />
+          </label>
+
+          <label>
+            <span class="required">内容 <span class="tag">必須</span></span>
+            <textarea name="message" id="message" placeholder="ご用件を入力してください" required></textarea>
+          </label>
+
+          <label class="check">
+            <input type="checkbox" id="agree" required />
+            <span id="agreeText">入力内容を確認し、返信までにお時間をいただく場合があることに同意します。</span>
+          </label>
+
+          <div class="actions">
+            <button type="submit" id="submitBtn">送信する</button>
+            <button type="button" class="ghost" id="resetBtn">入力をリセット</button>
+          </div>
+
+          <div id="status" class="status" aria-live="polite"></div>
+        </form>
+      </section>
+
+      <aside class="panel">
+        <h2 class="section-title">ご案内</h2>
+        <p class="section-sub">お問い合わせ前に、よくあるご確認事項をご覧ください。</p>
+
+        <div class="info-list" id="infoList"></div>
+
+        <div class="footer-note" id="footerNote">
+          送信後は、入力いただいたメールアドレス宛にご連絡する場合があります。受信設定をご確認ください。
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    const DEFAULT_CONFIG = {
+      page_title: "お問い合わせ",
+      page_lead: "イベントや出演、制作依頼、コラボ、各種ご相談はこちらからご連絡ください。",
+      form_lead: "必要事項をご入力のうえ送信してください。内容を確認のうえ、順番にご連絡いたします。",
+      submit_url: "",
+      submit_method: "POST",
+      thanks_url: "/contact-thanks.html",
+      categories: [
+        "出演依頼",
+        "イベントに関するお問い合わせ",
+        "コラボ・制作依頼",
+        "取材・掲載",
+        "その他"
+      ],
+      info_cards: [
+        {
+          title: "返信について",
+          body: "内容により、返信まで数日いただく場合があります。"
+        },
+        {
+          title: "出演・依頼について",
+          body: "日程、会場、企画内容、ご予算などがあると確認がスムーズです。"
+        },
+        {
+          title: "送信できない場合",
+          body: "時間をおいて再度お試しください。送信先が未設定の場合は設定が必要です。"
+        }
+      ],
+      agree_text: "入力内容を確認し、返信までにお時間をいただく場合があることに同意します。"
+    };
+
+    const form = document.getElementById("contactForm");
+    const statusEl = document.getElementById("status");
+    const submitBtn = document.getElementById("submitBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const categoryEl = document.getElementById("category");
+    const pageTitleEl = document.getElementById("pageTitle");
+    const pageLeadEl = document.getElementById("pageLead");
+    const formLeadEl = document.getElementById("formLead");
+    const infoListEl = document.getElementById("infoList");
+    const agreeTextEl = document.getElementById("agreeText");
+
+    let config = { ...DEFAULT_CONFIG };
+
+    function setStatus(message, type = "") {
+      statusEl.className = "status" + (type ? " " + type : "");
+      statusEl.textContent = message;
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function applyConfig() {
+      pageTitleEl.textContent = config.page_title || DEFAULT_CONFIG.page_title;
+      pageLeadEl.textContent = config.page_lead || DEFAULT_CONFIG.page_lead;
+      formLeadEl.textContent = config.form_lead || DEFAULT_CONFIG.form_lead;
+      agreeTextEl.textContent = config.agree_text || DEFAULT_CONFIG.agree_text;
+      document.title = (config.page_title || DEFAULT_CONFIG.page_title) + " | MJSS";
+
+      categoryEl.innerHTML = '<option value="">選択してください</option>';
+      (config.categories || DEFAULT_CONFIG.categories).forEach((item) => {
+        const option = document.createElement("option");
+        option.value = item;
+        option.textContent = item;
+        categoryEl.appendChild(option);
+      });
+
+      infoListEl.innerHTML = "";
+      (config.info_cards || DEFAULT_CONFIG.info_cards).forEach((item) => {
+        const card = document.createElement("div");
+        card.className = "info-card";
+        card.innerHTML = "<strong>" + escapeHtml(item.title || "") + "</strong><p>" + escapeHtml(item.body || "") + "</p>";
+        infoListEl.appendChild(card);
+      });
+    }
+
+    async function loadConfig() {
+      try {
+        const res = await fetch("/data/contact-form.json?v=1", { cache: "no-store" });
+        if (!res.ok) throw new Error("config load failed");
+        const json = await res.json();
+        config = {
+          ...DEFAULT_CONFIG,
+          ...json,
+          categories: Array.isArray(json.categories) && json.categories.length ? json.categories : DEFAULT_CONFIG.categories,
+          info_cards: Array.isArray(json.info_cards) && json.info_cards.length ? json.info_cards : DEFAULT_CONFIG.info_cards
+        };
+      } catch (error) {
+        console.warn(error);
+        config = { ...DEFAULT_CONFIG };
+      }
+      applyConfig();
+    }
+
+    function validateForm() {
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const category = document.getElementById("category").value.trim();
+      const subject = document.getElementById("subject").value.trim();
+      const message = document.getElementById("message").value.trim();
+      const agree = document.getElementById("agree").checked;
+
+      if (!name) return "お名前を入力してください。";
+      if (!email) return "メールアドレスを入力してください。";
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return "メールアドレスの形式を確認してください。";
+      if (!category) return "お問い合わせ種別を選択してください。";
+      if (!subject) return "件名を入力してください。";
+      if (!message) return "内容を入力してください。";
+      if (!agree) return "同意チェックを入れてください。";
+      return "";
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const error = validateForm();
+      if (error) {
+        setStatus(error, "error");
+        return;
+      }
+
+      const submitUrl = String(config.submit_url || "").trim();
+      if (!submitUrl) {
+        setStatus("送信先がまだ設定されていません。設定後に利用できます。", "error");
+        return;
+      }
+
+      try {
+        submitBtn.disabled = true;
+        setStatus("送信中です。少しお待ちください。");
+
+        const formData = new FormData(form);
+        formData.append("page", location.pathname);
+        formData.append("site", "MJSS");
+
+        const res = await fetch(submitUrl, {
+          method: String(config.submit_method || "POST").toUpperCase(),
+          body: formData,
+          headers: {
+            Accept: "application/json"
+          }
+        });
+
+        if (!res.ok) throw new Error("submit failed");
+
+        setStatus("送信が完了しました。", "ok");
+        window.location.href = config.thanks_url || "/contact-thanks.html";
+      } catch (error) {
+        console.warn(error);
+        setStatus("送信に失敗しました。時間をおいて再度お試しください。", "error");
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+
+    resetBtn.addEventListener("click", () => {
+      form.reset();
+      setStatus("");
+    });
+
+    loadConfig();
+  </script>
+</body>
+</html>
