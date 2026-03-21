@@ -18,5 +18,15 @@
       "status": "public",
       "featured": false
     }
+ {
+  "title": "MJSS インベーダー",
+  "description": "画像・音差し替え対応のエンドレスおまけシューティング",
+  "image": "",
+  "url": "/games/invader.html",
+  "type": "ミニゲーム",
+  "badge": "NEW",
+  "status": "public",
+  "featured": true
+}
   ]
 }
