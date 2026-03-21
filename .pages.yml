@@ -358,3 +358,97 @@ content:
           - { name: title, label: タイトル, type: string }
           - { name: date, label: 日付, type: string, required: false }
           - { name: body, label: 本文, type: text, required: false }
+
+  - name: invader_config
+    label: インベーダー設定
+    type: file
+    path: data/invader-config.json
+    fields:
+      - name: images
+        label: 画像設定
+        type: object
+        fields:
+          - { name: player, label: 自機画像, type: image, required: false }
+          - { name: enemy, label: 敵画像, type: image, required: false }
+          - { name: bullet, label: 弾画像, type: image, required: false }
+          - { name: barrier, label: バリア画像, type: image, required: false }
+          - { name: rare_enemy, label: レア敵画像, type: image, required: false }
+          - { name: enemy_bullet, label: 敵弾画像, type: image, required: false }
+          - { name: background, label: 背景画像, type: image, required: false }
+
+      - name: gameplay
+        label: ゲーム設定
+        type: object
+        fields:
+          - { name: player_speed, label: プレイヤー速度, type: number, required: false }
+          - { name: bullet_speed, label: 弾速度, type: number, required: false }
+          - { name: enemy_speed, label: 敵速度, type: number, required: false }
+          - { name: enemy_bullet_speed, label: 敵弾速度, type: number, required: false }
+          - { name: initial_lives, label: 初期残機, type: number, required: false }
+          - { name: barrier_hp, label: バリア耐久, type: number, required: false }
+          - { name: wave_speed_step, label: Waveごとの速度増加量, type: number, required: false }
+          - { name: rare_enemy_spawn_rate, label: レア敵出現率, type: number, required: false }
+          - { name: rare_enemy_score, label: レア敵スコア, type: number, required: false }
+          - { name: enemy_score, label: 通常敵スコア, type: number, required: false }
+
+      - name: ui
+        label: UI設定
+        type: object
+        fields:
+          - { name: game_title, label: ゲームタイトル, type: string, required: false }
+          - { name: start_message, label: スタート文言, type: string, required: false }
+          - { name: gameover_message, label: ゲームオーバー文言, type: string, required: false }
+          - { name: show_mobile_controls, label: スマホ操作ボタンを表示, type: boolean, required: false }
+          - { name: allow_sound_toggle, label: 音ON/OFF切り替えを表示, type: boolean, required: false }
+          - { name: enable_screen_shake, label: 画面揺れを有効化, type: boolean, required: false }
+          - { name: enable_hit_flash, label: ヒットフラッシュを有効化, type: boolean, required: false }
+
+      - name: theme
+        label: 見た目設定
+        type: object
+        fields:
+          - { name: background_color, label: 背景色, type: string, required: false }
+          - { name: accent_color, label: アクセント色, type: string, required: false }
+          - { name: text_color, label: 文字色, type: string, required: false }
+          - { name: flash_color, label: フラッシュ色, type: string, required: false }
+
+  - name: sounds
+    label: サウンド設定
+    type: file
+    path: data/sounds.json
+    fields:
+      - name: invader
+        label: インベーダー用サウンド
+        type: object
+        fields:
+          - name: bgm
+            label: BGM
+            type: file
+            required: false
+            options:
+              extensions: [mp3, wav, ogg, m4a]
+          - name: shot
+            label: ショット音
+            type: file
+            required: false
+            options:
+              extensions: [mp3, wav, ogg, m4a]
+          - name: explosion
+            label: 敵の爆発音
+            type: file
+            required: false
+            options:
+              extensions: [mp3, wav, ogg, m4a]
+          - name: gameover
+            label: ゲームオーバー音
+            type: file
+            required: false
+            options:
+              extensions: [mp3, wav, ogg, m4a]
+          - name: start
+            label: スタート音
+            type: file
+            required: false
+            options:
+              extensions: [mp3, wav, ogg, m4a]
+
