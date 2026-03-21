@@ -112,6 +112,7 @@ content:
                 - { label: 本文, value: body }
                 - { label: 引用, value: quote }
                 - { label: 強調, value: emphasis }
+                - { label: 署名, value: signature }
                 - { label: 余白 小, value: spacer_small }
                 - { label: 余白 中, value: spacer_medium }
                 - { label: 余白 大, value: spacer_large }
@@ -137,7 +138,9 @@ content:
                 - { label: 見出し, value: heading }
                 - { label: 中見出し, value: subheading }
                 - { label: 本文, value: body }
+                - { label: 引用, value: quote }
                 - { label: 強調, value: emphasis }
+                - { label: 署名, value: signature }
                 - { label: 余白 小, value: spacer_small }
                 - { label: 余白 中, value: spacer_medium }
                 - { label: 余白 大, value: spacer_large }
@@ -163,7 +166,9 @@ content:
                 - { label: 見出し, value: heading }
                 - { label: 中見出し, value: subheading }
                 - { label: 本文, value: body }
+                - { label: 引用, value: quote }
                 - { label: 強調, value: emphasis }
+                - { label: 署名, value: signature }
                 - { label: 余白 小, value: spacer_small }
                 - { label: 余白 中, value: spacer_medium }
                 - { label: 余白 大, value: spacer_large }
@@ -189,7 +194,9 @@ content:
                 - { label: 見出し, value: heading }
                 - { label: 中見出し, value: subheading }
                 - { label: 本文, value: body }
+                - { label: 引用, value: quote }
                 - { label: 強調, value: emphasis }
+                - { label: 署名, value: signature }
                 - { label: 余白 小, value: spacer_small }
                 - { label: 余白 中, value: spacer_medium }
                 - { label: 余白 大, value: spacer_large }
@@ -215,13 +222,62 @@ content:
                 - { label: 見出し, value: heading }
                 - { label: 中見出し, value: subheading }
                 - { label: 本文, value: body }
+                - { label: 引用, value: quote }
                 - { label: 強調, value: emphasis }
+                - { label: 署名, value: signature }
                 - { label: 余白 小, value: spacer_small }
                 - { label: 余白 中, value: spacer_medium }
                 - { label: 余白 大, value: spacer_large }
                 - { label: 画像, value: image }
           - { name: text, label: 内容, type: text, required: false }
           - { name: image, label: 画像, type: image, required: false }
+
+  - name: omake_links
+    label: おまけ一覧
+    type: file
+    path: data/omake-links.json
+    fields:
+      - name: items
+        label: おまけカード一覧
+        type: object
+        list: true
+        fields:
+          - { name: title, label: タイトル, type: string }
+          - { name: description, label: 説明文, type: text, required: false }
+          - { name: image, label: サムネ画像, type: image, required: false }
+          - { name: url, label: リンク先, type: string }
+
+          - name: type
+            label: 種類
+            type: select
+            options:
+              values:
+                - { label: ミニゲーム, value: ミニゲーム }
+                - { label: ブログ, value: ブログ }
+                - { label: 隠しページ, value: 隠しページ }
+                - { label: 開発中, value: 開発中 }
+                - { label: おまけ, value: おまけ }
+
+          - name: badge
+            label: バッジ
+            type: select
+            options:
+              values:
+                - { label: なし, value: "" }
+                - { label: NEW, value: NEW }
+                - { label: おすすめ, value: おすすめ }
+                - { label: 人気, value: 人気 }
+                - { label: 限定, value: 限定 }
+
+          - name: status
+            label: 公開状態
+            type: select
+            options:
+              values:
+                - { label: 公開, value: public }
+                - { label: 非公開, value: private }
+
+          - { name: featured, label: おすすめ表示, type: boolean, required: false }
 
   - name: next_performers
     label: 次回参加者
