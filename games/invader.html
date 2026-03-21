@@ -31,7 +31,7 @@
       flex-direction: column;
       align-items: center;
       gap: 12px;
-      padding: 12px;
+      padding: max(64px, calc(env(safe-area-inset-top) + 12px)) 12px 12px;
       overflow-x: hidden;
     }
 
@@ -56,6 +56,9 @@
       gap: 12px;
       padding: 12px 14px;
       align-items: center;
+      position: sticky;
+      top: 12px;
+      z-index: 40;
     }
 
     .titlebox h1 {
@@ -89,6 +92,26 @@
     }
 
     button:hover { background: rgba(255,255,255,0.14); }
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      border: 1px solid var(--panel-border);
+      background: rgba(255,255,255,0.1);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-weight: 700;
+      min-height: 44px;
+      position: relative;
+      z-index: 60;
+      pointer-events: auto;
+    }
+
+    .nav-link:hover { background: rgba(255,255,255,0.14); }
+
 
     .game-panel {
       position: relative;
@@ -367,6 +390,7 @@
         <p id="pageLead">音量調整やランキング登録ができます。操作は横ドラッグ対応です。</p>
       </div>
       <div class="top-actions">
+        <a class="nav-link" id="homeBtn" href="/index.html">ホームへ</a>
         <button id="soundToggle" type="button">音 ON</button>
         <button id="restartBtn" type="button">再スタート</button>
       </div>
@@ -443,7 +467,7 @@
           </div>
         </div>
 
-        <div id="rankingStatus" class="rank-status">ランキング準備中</div>
+        <div id="rankingStatus" class="rank-status">ランキング読み込み中</div>
         <ol id="leaderboardList" class="leaderboard">
           <li><span class="rank-no">-</span><span class="rank-meta"><span class="rank-name">読み込み中...</span><span class="rank-wave">少し待ってね</span></span><span class="rank-score">--</span></li>
         </ol>
