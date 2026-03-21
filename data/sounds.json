@@ -1,8 +1,8 @@
 {
   "invader": {
     "bgm": "/images/uploads/Untitled (8) (1).mp3",
-    "shot": "/images/uploads/innbe-da-syotto.mp3",
-    "explosion": "/images/uploads/tekiyarareru .mp3",
+    "shot": "/images/uploads/syotto-2.mp3",
+    "explosion": "/images/uploads/tekiyarareru -2.mp3",
     "gameover": "/images/uploads/tekiyarareru (2).mp3",
     "start": "/images/uploads/suta-to(2).mp3"
   }
