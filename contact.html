@@ -75,8 +75,21 @@
     }
 
     .hero {
-      padding: 28px 22px;
+      padding: 32px 24px;
       margin-bottom: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -80px -120px auto;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(118,214,255,0.18), transparent 68%);
+      pointer-events: none;
     }
 
     .eyebrow {
@@ -126,6 +139,39 @@
       color: var(--muted);
       line-height: 1.7;
       font-size: 14px;
+    }
+
+    .hero-points {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .hero-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .02em;
+    }
+
+    .subnote {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(118,214,255,0.18);
+      background: rgba(118,214,255,0.08);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
     }
 
     form {
@@ -306,6 +352,15 @@
       <span class="eyebrow">Contact</span>
       <h1 id="pageTitle">お問い合わせ</h1>
       <p id="pageLead">イベントや出演、制作依頼、コラボ、各種ご相談はこちらからご連絡ください。</p>
+      <div class="hero-points">
+        <span class="hero-chip">出演依頼</span>
+        <span class="hero-chip">コラボ相談</span>
+        <span class="hero-chip">制作依頼</span>
+        <span class="hero-chip">掲載・取材</span>
+      </div>
+      <div class="subnote">
+        フォーム送信後は、確認ページへ移動します。内容により返信まで少しお時間をいただく場合があります。
+      </div>
     </section>
 
     <div class="layout">
