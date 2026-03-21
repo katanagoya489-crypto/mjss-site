@@ -65,8 +65,9 @@
 
     .titlebox p {
       margin: 0;
-      opacity: 0.8;
+      opacity: 0.82;
       font-size: 13px;
+      line-height: 1.6;
     }
 
     .top-actions {
@@ -76,7 +77,7 @@
       justify-content: flex-end;
     }
 
-    button, select, label.file-btn {
+    button {
       appearance: none;
       border: 1px solid var(--panel-border);
       background: rgba(255,255,255,0.1);
@@ -87,7 +88,7 @@
       cursor: pointer;
     }
 
-    button:hover, select:hover, label.file-btn:hover { background: rgba(255,255,255,0.14); }
+    button:hover { background: rgba(255,255,255,0.14); }
 
     .game-panel {
       position: relative;
@@ -168,7 +169,7 @@
     .overlay-card p {
       margin: 6px 0;
       line-height: 1.6;
-      opacity: 0.9;
+      opacity: 0.92;
     }
 
     .overlay-actions {
@@ -199,39 +200,45 @@
       border-color: rgba(106, 215, 255, 0.44);
     }
 
-    .asset-panel {
+    .audio-panel {
+      padding: 14px;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .audio-card {
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      border-radius: 16px;
       padding: 14px;
       display: grid;
       gap: 10px;
     }
 
-    .asset-grid {
+    .slider-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 8px;
+    }
+
+    .slider-head {
+      display: flex;
+      justify-content: space-between;
       gap: 10px;
-      align-items: start;
+      font-weight: 700;
+      font-size: 14px;
     }
 
-    .dropzone {
-      border: 2px dashed rgba(255,255,255,0.22);
-      border-radius: 16px;
-      padding: 18px;
-      min-height: 120px;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      background: rgba(255,255,255,0.04);
-    }
-
-    .dropzone.active {
-      border-color: var(--accent);
-      background: rgba(106, 215, 255, 0.12);
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+      cursor: pointer;
     }
 
     .note {
       font-size: 12px;
       opacity: 0.78;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     .mini-list {
@@ -242,21 +249,10 @@
 
     .mini-list strong { color: var(--accent); }
 
-    .status-line {
-      font-size: 13px;
-      opacity: 0.92;
-      min-height: 1.6em;
-    }
-
-    .hidden-input { display: none; }
-
-    .danger { color: #ffb3c0; }
-    .ok { color: #c3ffc3; }
-
     @media (min-width: 860px) {
       .wrap { grid-template-columns: minmax(0, 1fr) 320px; }
       .topbar { grid-column: 1 / -1; }
-      .asset-panel { height: fit-content; }
+      .audio-panel { height: fit-content; }
     }
   </style>
 </head>
@@ -265,11 +261,10 @@
     <section class="panel topbar">
       <div class="titlebox">
         <h1 id="pageTitle">MJSS インベーダー</h1>
-        <p id="pageLead">画像と音は JSON / CMS で差し替え可能。ゲーム中はドラッグでも操作できます。</p>
+        <p id="pageLead">画像の差し替えは裏側の JSON / CMS で管理。表側では BGM / SE の音量だけ調整できます。操作は横ドラッグ対応です。</p>
       </div>
       <div class="top-actions">
         <button id="soundToggle" type="button">音 ON</button>
-        <button id="resetAssetOverrides" type="button">差し替え解除</button>
         <button id="restartBtn" type="button">再スタート</button>
       </div>
     </section>
@@ -289,7 +284,7 @@
           <div class="overlay-card">
             <h2 id="overlayTitle">MJSS インベーダー</h2>
             <p id="overlayText">タップ / クリックで開始。PC は左右キー・A/D・スペース、スマホはボタンか横ドラッグで操作。</p>
-            <p class="note">このページだけで遊べる構成。音や画像が未設定でもフォールバック表示で動きます。</p>
+            <p class="note">WAVE 1 は基本配置、WAVE 2 以降は敵配置がランダム化されます。敵を倒すと加点ポップアップが表示されます。</p>
             <div class="overlay-actions">
               <button id="startBtn" type="button">START</button>
               <button id="resumeBtn" type="button" style="display:none;">再開</button>
@@ -305,55 +300,37 @@
       </div>
     </section>
 
-    <aside class="panel asset-panel">
-      <h2 style="margin:0; font-size:20px;">画像 / 音 差し替え</h2>
+    <aside class="panel audio-panel">
+      <h2 style="margin:0; font-size:20px;">サウンド設定</h2>
       <p class="note" style="margin:0;">
-        ここにファイルをドラッグ＆ドロップすると、その場で見た目や音を変更できます。<br>
-        <strong>永続反映したい場合</strong> は CMS で <code>data/invader-config.json</code> と <code>data/sounds.json</code> を更新してください。
+        ここで触れるのは <strong>BGM / SE の音量だけ</strong> です。<br>
+        自機・敵・弾・背景などの画像差し替えは、裏側の <code>data/invader-config.json</code> と Pages CMS で行ってください。
       </p>
 
-      <div class="asset-grid">
-        <div>
-          <div style="margin-bottom:8px; font-weight:700;">差し替え対象</div>
-          <select id="assetTarget">
-            <optgroup label="画像">
-              <option value="images.player">自機画像</option>
-              <option value="images.enemy">敵画像</option>
-              <option value="images.bullet">弾画像</option>
-              <option value="images.barrier">バリア画像</option>
-              <option value="images.rare_enemy">レア敵画像</option>
-              <option value="images.enemy_bullet">敵弾画像</option>
-              <option value="images.background">背景画像</option>
-            </optgroup>
-            <optgroup label="音">
-              <option value="sounds.bgm">BGM</option>
-              <option value="sounds.shot">ショット音</option>
-              <option value="sounds.explosion">爆発音</option>
-              <option value="sounds.gameover">ゲームオーバー音</option>
-              <option value="sounds.start">スタート音</option>
-            </optgroup>
-          </select>
-          <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
-            <label class="file-btn" for="assetFile">ファイル選択</label>
-            <input id="assetFile" class="hidden-input" type="file" accept="image/*,audio/*" />
+      <div class="audio-card">
+        <div class="slider-row">
+          <div class="slider-head">
+            <span>BGM 音量</span>
+            <span id="bgmVolumeValue">70%</span>
           </div>
+          <input id="bgmVolume" type="range" min="0" max="100" step="1" value="70" />
         </div>
 
-        <div id="dropzone" class="dropzone">
-          <div>
-            <div style="font-size:18px; font-weight:800; margin-bottom:6px;">ここにドロップ</div>
-            <div class="note">画像なら PNG/JPG/WebP、音なら MP3/WAV/OGG/M4A</div>
+        <div class="slider-row">
+          <div class="slider-head">
+            <span>SE 音量</span>
+            <span id="seVolumeValue">85%</span>
           </div>
+          <input id="seVolume" type="range" min="0" max="100" step="1" value="85" />
         </div>
       </div>
 
       <div class="mini-list">
-        <div><strong>CMS常設変更:</strong> Pages CMS で JSON の画像・音パスを更新</div>
-        <div><strong>その場確認:</strong> このページ右側のドロップで即差し替え</div>
-        <div><strong>プレイ操作:</strong> 左右キー / A,D / スペース / スマホボタン / 横ドラッグ</div>
+        <div><strong>表側で調整:</strong> BGM / SE の音量のみ</div>
+        <div><strong>裏側で変更:</strong> 画像・音源ファイルのパス差し替え</div>
+        <div><strong>操作:</strong> 左右キー / A,D / スペース / スマホボタン / 横ドラッグ</div>
+        <div><strong>進行:</strong> WAVE 2 以降は敵配置が毎回ランダム</div>
       </div>
-
-      <div class="status-line" id="assetStatus">まだ差し替えはありません。</div>
     </aside>
   </div>
 
@@ -369,14 +346,20 @@
       const overlayTitle = document.getElementById('overlayTitle');
       const overlayText = document.getElementById('overlayText');
       const soundToggle = document.getElementById('soundToggle');
-      const assetStatus = document.getElementById('assetStatus');
       const mobileControls = document.getElementById('mobileControls');
       const pageTitle = document.getElementById('pageTitle');
-      const pageLead = document.getElementById('pageLead');
+      const bgmVolumeInput = document.getElementById('bgmVolume');
+      const seVolumeInput = document.getElementById('seVolume');
+      const bgmVolumeValue = document.getElementById('bgmVolumeValue');
+      const seVolumeValue = document.getElementById('seVolumeValue');
 
       const STORAGE_KEY = 'mjss_invader_hi_score';
+      const STORAGE_BGM_KEY = 'mjss_invader_bgm_volume';
+      const STORAGE_SE_KEY = 'mjss_invader_se_volume';
       const CANVAS_WIDTH = canvas.width;
       const CANVAS_HEIGHT = canvas.height;
+
+      const clone = (obj) => JSON.parse(JSON.stringify(obj));
 
       const defaultConfig = {
         images: {
@@ -401,7 +384,17 @@
           enemy_score: 40,
           fire_cooldown_ms: 210,
           enemy_fire_interval_ms: 850,
-          barrier_count: 4
+          barrier_count: 4,
+          player_width: 56,
+          player_height: 42,
+          enemy_width: 42,
+          enemy_height: 34,
+          bullet_width: 10,
+          bullet_height: 24,
+          enemy_bullet_width: 10,
+          enemy_bullet_height: 22,
+          rare_enemy_width: 74,
+          rare_enemy_height: 34
         },
         ui: {
           game_title: 'MJSS インベーダー',
@@ -431,9 +424,8 @@
       };
 
       const state = {
-        config: structuredClone(defaultConfig),
-        soundsConfig: structuredClone(defaultSounds),
-        assetOverrides: {},
+        config: clone(defaultConfig),
+        soundsConfig: clone(defaultSounds),
         imageCache: {},
         audioCache: {},
         keys: { left: false, right: false, shoot: false },
@@ -444,16 +436,18 @@
         wave: 1,
         lives: 3,
         hiScore: Number(localStorage.getItem(STORAGE_KEY) || 0),
+        bgmVolume: Number(localStorage.getItem(STORAGE_BGM_KEY) || 0.70),
+        seVolume: Number(localStorage.getItem(STORAGE_SE_KEY) || 0.85),
         player: null,
         bullets: [],
         enemyBullets: [],
         enemies: [],
         barriers: [],
         particles: [],
+        scorePopups: [],
         rareEnemy: null,
         lastTime: 0,
         enemyDirection: 1,
-        enemyStepDownPending: false,
         fireCooldown: 0,
         enemyFireTimer: 0,
         shakeTime: 0,
@@ -470,17 +464,33 @@
 
       hiEl.textContent = String(state.hiScore);
 
+      const loadedImages = {
+        player: null,
+        enemy: null,
+        bullet: null,
+        barrier: null,
+        rare_enemy: null,
+        enemy_bullet: null,
+        background: null
+      };
+
       const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
       const rand = (min, max) => Math.random() * (max - min) + min;
+
+      function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i -= 1) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
 
       function deepMerge(target, source) {
         if (!source || typeof source !== 'object') return target;
         for (const key of Object.keys(source)) {
           const value = source[key];
           if (value && typeof value === 'object' && !Array.isArray(value)) {
-            if (!target[key] || typeof target[key] !== 'object' || Array.isArray(target[key])) {
-              target[key] = {};
-            }
+            if (!target[key] || typeof target[key] !== 'object' || Array.isArray(target[key])) target[key] = {};
             deepMerge(target[key], value);
           } else {
             target[key] = value;
@@ -494,10 +504,10 @@
           const res = await fetch(path, { cache: 'no-store' });
           if (!res.ok) throw new Error(path + ' load failed');
           const json = await res.json();
-          return deepMerge(structuredClone(fallback), json);
+          return deepMerge(clone(fallback), json);
         } catch (error) {
           console.warn(error);
-          return structuredClone(fallback);
+          return clone(fallback);
         }
       }
 
@@ -512,20 +522,15 @@
       }
 
       function getAssetPath(dotPath) {
-        if (state.assetOverrides[dotPath]) return state.assetOverrides[dotPath];
         const [head, tail] = dotPath.split('.');
-        if (head === 'sounds') {
-          return state.soundsConfig.invader?.[tail] || '';
-        }
+        if (head === 'sounds') return state.soundsConfig.invader?.[tail] || '';
         return state.config[head]?.[tail] || '';
       }
 
       function loadImage(path, cacheKey) {
         return new Promise((resolve) => {
           if (!path) return resolve(null);
-          if (state.imageCache[cacheKey] && state.imageCache[cacheKey].src === path) {
-            return resolve(state.imageCache[cacheKey]);
-          }
+          if (state.imageCache[cacheKey] && state.imageCache[cacheKey].src === path) return resolve(state.imageCache[cacheKey]);
           const img = new Image();
           img.onload = () => {
             state.imageCache[cacheKey] = img;
@@ -554,6 +559,16 @@
         soundToggle.textContent = soundEnabled ? '音 ON' : '音 OFF';
       }
 
+      function updateVolumeUi() {
+        const bgm = Math.round(state.bgmVolume * 100);
+        const se = Math.round(state.seVolume * 100);
+        bgmVolumeInput.value = String(bgm);
+        seVolumeInput.value = String(se);
+        bgmVolumeValue.textContent = bgm + '%';
+        seVolumeValue.textContent = se + '%';
+        if (bgmAudio) bgmAudio.volume = soundEnabled ? state.bgmVolume : 0;
+      }
+
       function stopBgm() {
         if (bgmAudio) {
           bgmAudio.pause();
@@ -568,7 +583,7 @@
         if (!path) return;
         bgmAudio = new Audio(path);
         bgmAudio.loop = true;
-        bgmAudio.volume = 0.7;
+        bgmAudio.volume = state.bgmVolume;
         bgmAudio.play().catch(() => {});
       }
 
@@ -576,7 +591,7 @@
         if (!soundEnabled) return;
         const audio = getAudio(key);
         if (!audio) return;
-        audio.volume = volume;
+        audio.volume = clamp(volume * state.seVolume, 0, 1);
         audio.play().catch(() => {});
       }
 
@@ -610,44 +625,84 @@
       function buildBarriers() {
         const hp = state.config.gameplay.barrier_hp;
         const count = state.config.gameplay.barrier_count;
-        const width = 64;
+        const width = 72;
         const gap = (CANVAS_WIDTH - count * width) / (count + 1);
         state.barriers = Array.from({ length: count }, (_, i) => ({
           x: gap + i * (width + gap),
-          y: CANVAS_HEIGHT - 170,
+          y: CANVAS_HEIGHT - 184,
           w: width,
-          h: 28,
+          h: 34,
           hp,
           maxHp: hp
         }));
       }
 
-      function spawnWave() {
+      function fixedWaveEnemies() {
+        const enemies = [];
         const rows = 4;
         const cols = 7;
-        const enemies = [];
-        const startX = 60;
-        const startY = 90;
-        const gapX = 48;
-        const gapY = 44;
+        const w = state.config.gameplay.enemy_width;
+        const h = state.config.gameplay.enemy_height;
+        const startX = 44;
+        const startY = 84;
+        const gapX = 16;
+        const gapY = 20;
 
         for (let r = 0; r < rows; r += 1) {
           for (let c = 0; c < cols; c += 1) {
             enemies.push({
-              x: startX + c * gapX,
-              y: startY + r * gapY,
-              w: 30,
-              h: 24,
+              x: startX + c * (w + gapX),
+              y: startY + r * (h + gapY),
+              w,
+              h,
               alive: true,
               type: r === 0 ? 'elite' : 'normal',
               points: state.config.gameplay.enemy_score + (rows - r - 1) * 10
             });
           }
         }
+        return enemies;
+      }
 
-        state.enemies = enemies;
+      function randomWaveEnemies() {
+        const w = state.config.gameplay.enemy_width;
+        const h = state.config.gameplay.enemy_height;
+        const count = 28;
+        const cols = 8;
+        const rows = 5;
+        const left = 34;
+        const right = CANVAS_WIDTH - 34 - w;
+        const top = 70;
+        const bottom = 320;
+        const stepX = (right - left) / (cols - 1);
+        const stepY = (bottom - top) / (rows - 1);
+        const slots = [];
+
+        for (let r = 0; r < rows; r += 1) {
+          for (let c = 0; c < cols; c += 1) {
+            slots.push({
+              x: left + c * stepX + rand(-7, 7),
+              y: top + r * stepY + rand(-6, 6)
+            });
+          }
+        }
+
+        shuffle(slots);
+        return slots.slice(0, count).map((slot, index) => ({
+          x: clamp(slot.x, 18, CANVAS_WIDTH - w - 18),
+          y: clamp(slot.y, 58, 350),
+          w,
+          h,
+          alive: true,
+          type: index < 6 ? 'elite' : 'normal',
+          points: state.config.gameplay.enemy_score + (index < 6 ? 30 : (index % 3) * 10)
+        }));
+      }
+
+      function spawnWave() {
+        state.enemies = state.wave === 1 ? fixedWaveEnemies() : randomWaveEnemies();
         state.enemyDirection = 1;
-        state.enemyStepDownPending = false;
+        state.enemyFireTimer = 0;
       }
 
       function resetGame() {
@@ -660,14 +715,15 @@
         state.bullets = [];
         state.enemyBullets = [];
         state.particles = [];
+        state.scorePopups = [];
         state.rareEnemy = null;
         state.fireCooldown = 0;
         state.enemyFireTimer = 0;
         state.player = {
-          x: CANVAS_WIDTH / 2 - 18,
-          y: CANVAS_HEIGHT - 78,
-          w: 36,
-          h: 28,
+          x: CANVAS_WIDTH / 2 - state.config.gameplay.player_width / 2,
+          y: CANVAS_HEIGHT - 86,
+          w: state.config.gameplay.player_width,
+          h: state.config.gameplay.player_height,
           speed: state.config.gameplay.player_speed,
           alive: true
         };
@@ -695,9 +751,7 @@
         state.paused = false;
         state.gameOver = false;
         hideOverlay();
-        if (!fromRestart) {
-          playSfx('start', 0.8);
-        }
+        if (!fromRestart) playSfx('start', 0.8);
         playBgm();
       }
 
@@ -713,19 +767,40 @@
         showOverlay(state.config.ui.gameover_message || 'GAME OVER', `SCORE ${state.score} / WAVE ${state.wave}。STARTで再挑戦。`, true, false);
       }
 
+      function addExplosion(x, y, color = '#fff') {
+        for (let i = 0; i < 14; i += 1) {
+          const life = rand(0.2, 0.55);
+          state.particles.push({
+            x,
+            y,
+            vx: rand(-120, 120),
+            vy: rand(-120, 120),
+            life,
+            maxLife: life,
+            size: rand(2, 5),
+            color
+          });
+        }
+      }
+
+      function addScorePopup(x, y, points, color = '#ffffff') {
+        const life = 0.7;
+        state.scorePopups.push({ x, y, text: '+' + points, life, maxLife: life, color });
+      }
+
       function shootPlayerBullet() {
         if (!state.running || state.paused || state.gameOver) return;
         if (state.fireCooldown > 0) return;
         state.fireCooldown = (state.config.gameplay.fire_cooldown_ms || 210) / 1000;
         state.bullets.push({
-          x: state.player.x + state.player.w / 2 - 3,
-          y: state.player.y - 8,
-          w: 6,
-          h: 14,
+          x: state.player.x + state.player.w / 2 - state.config.gameplay.bullet_width / 2,
+          y: state.player.y - state.config.gameplay.bullet_height + 6,
+          w: state.config.gameplay.bullet_width,
+          h: state.config.gameplay.bullet_height,
           vy: -state.config.gameplay.bullet_speed,
           from: 'player'
         });
-        playSfx('shot', 0.6);
+        playSfx('shot', 0.7);
       }
 
       function shootEnemyBullet() {
@@ -733,10 +808,10 @@
         if (!alive.length) return;
         const shooter = alive[Math.floor(Math.random() * alive.length)];
         state.enemyBullets.push({
-          x: shooter.x + shooter.w / 2 - 3,
+          x: shooter.x + shooter.w / 2 - state.config.gameplay.enemy_bullet_width / 2,
           y: shooter.y + shooter.h + 4,
-          w: 6,
-          h: 14,
+          w: state.config.gameplay.enemy_bullet_width,
+          h: state.config.gameplay.enemy_bullet_height,
           vy: state.config.gameplay.enemy_bullet_speed,
           from: 'enemy'
         });
@@ -748,37 +823,17 @@
         if (Math.random() > chance * 0.01) return;
         const fromLeft = Math.random() < 0.5;
         state.rareEnemy = {
-          x: fromLeft ? -56 : CANVAS_WIDTH + 56,
-          y: 48,
-          w: 52,
-          h: 26,
-          vx: fromLeft ? 140 : -140,
+          x: fromLeft ? -90 : CANVAS_WIDTH + 90,
+          y: 42,
+          w: state.config.gameplay.rare_enemy_width,
+          h: state.config.gameplay.rare_enemy_height,
+          vx: fromLeft ? 150 : -150,
           score: state.config.gameplay.rare_enemy_score
         };
       }
 
       function rectsHit(a, b) {
-        return (
-          a.x < b.x + b.w &&
-          a.x + a.w > b.x &&
-          a.y < b.y + b.h &&
-          a.y + a.h > b.y
-        );
-      }
-
-      function addExplosion(x, y, color = '#fff') {
-        for (let i = 0; i < 14; i += 1) {
-          state.particles.push({
-            x,
-            y,
-            vx: rand(-120, 120),
-            vy: rand(-120, 120),
-            life: rand(0.2, 0.55),
-            maxLife: rand(0.2, 0.55),
-            size: rand(2, 5),
-            color
-          });
-        }
+        return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
       }
 
       function hitPlayer() {
@@ -799,10 +854,26 @@
         state.wave += 1;
         state.bullets = [];
         state.enemyBullets = [];
+        state.scorePopups = [];
         buildBarriers();
         spawnWave();
         triggerFlash('rgba(106, 215, 255, 0.18)', 0.16);
         updateHud();
+      }
+
+      function drawImageOrFallback(img, drawer, x, y, w, h) {
+        if (img) ctx.drawImage(img, x, y, w, h);
+        else drawer(x, y, w, h);
+      }
+
+      async function refreshImages() {
+        loadedImages.player = await loadImage(getAssetPath('images.player'), 'player');
+        loadedImages.enemy = await loadImage(getAssetPath('images.enemy'), 'enemy');
+        loadedImages.bullet = await loadImage(getAssetPath('images.bullet'), 'bullet');
+        loadedImages.barrier = await loadImage(getAssetPath('images.barrier'), 'barrier');
+        loadedImages.rare_enemy = await loadImage(getAssetPath('images.rare_enemy'), 'rare_enemy');
+        loadedImages.enemy_bullet = await loadImage(getAssetPath('images.enemy_bullet'), 'enemy_bullet');
+        loadedImages.background = await loadImage(getAssetPath('images.background'), 'background');
       }
 
       function update(dt) {
@@ -864,15 +935,13 @@
         spawnRareEnemy();
         if (state.rareEnemy) {
           state.rareEnemy.x += state.rareEnemy.vx * dt;
-          if (state.rareEnemy.x < -80 || state.rareEnemy.x > CANVAS_WIDTH + 80) {
-            state.rareEnemy = null;
-          }
+          if (state.rareEnemy.x < -100 || state.rareEnemy.x > CANVAS_WIDTH + 100) state.rareEnemy = null;
         }
 
         for (const bullet of state.bullets) bullet.y += bullet.vy * dt;
         for (const bullet of state.enemyBullets) bullet.y += bullet.vy * dt;
-        state.bullets = state.bullets.filter(b => b.y + b.h > -30);
-        state.enemyBullets = state.enemyBullets.filter(b => b.y < CANVAS_HEIGHT + 30);
+        state.bullets = state.bullets.filter(b => b.y + b.h > -40);
+        state.enemyBullets = state.enemyBullets.filter(b => b.y < CANVAS_HEIGHT + 40);
 
         for (const bullet of state.bullets) {
           for (const enemy of state.enemies) {
@@ -881,7 +950,8 @@
             enemy.alive = false;
             bullet.dead = true;
             state.score += enemy.points;
-            playSfx('explosion', 0.55);
+            addScorePopup(enemy.x + enemy.w / 2, enemy.y - 6, enemy.points, enemy.type === 'elite' ? '#ffd36b' : '#9fe8ff');
+            playSfx('explosion', 0.58);
             triggerShake(4, 0.08);
             triggerFlash('rgba(255,255,255,0.12)', 0.05);
             addExplosion(enemy.x + enemy.w / 2, enemy.y + enemy.h / 2, '#9fe8ff');
@@ -894,9 +964,10 @@
           if (state.rareEnemy && rectsHit(bullet, state.rareEnemy)) {
             bullet.dead = true;
             state.score += state.rareEnemy.score;
+            addScorePopup(state.rareEnemy.x + state.rareEnemy.w / 2, state.rareEnemy.y - 8, state.rareEnemy.score, '#ffd36b');
             addExplosion(state.rareEnemy.x + state.rareEnemy.w / 2, state.rareEnemy.y + state.rareEnemy.h / 2, '#ffd36b');
             triggerShake(6, 0.1);
-            playSfx('explosion', 0.7);
+            playSfx('explosion', 0.72);
             state.rareEnemy = null;
             updateHud();
           }
@@ -940,46 +1011,22 @@
         }
         state.particles = state.particles.filter(p => p.life > 0);
 
-        if (state.enemies.every(e => !e.alive)) {
-          nextWave();
+        for (const popup of state.scorePopups) {
+          popup.y -= 44 * dt;
+          popup.life -= dt;
         }
+        state.scorePopups = state.scorePopups.filter(p => p.life > 0);
+
+        if (state.enemies.every(e => !e.alive)) nextWave();
 
         saveHiScore();
-      }
-
-      function drawImageOrFallback(img, drawer, x, y, w, h) {
-        if (img) {
-          ctx.drawImage(img, x, y, w, h);
-        } else {
-          drawer(x, y, w, h);
-        }
-      }
-
-      const loadedImages = {
-        player: null,
-        enemy: null,
-        bullet: null,
-        barrier: null,
-        rare_enemy: null,
-        enemy_bullet: null,
-        background: null
-      };
-
-      async function refreshImages() {
-        loadedImages.player = await loadImage(getAssetPath('images.player'), 'player');
-        loadedImages.enemy = await loadImage(getAssetPath('images.enemy'), 'enemy');
-        loadedImages.bullet = await loadImage(getAssetPath('images.bullet'), 'bullet');
-        loadedImages.barrier = await loadImage(getAssetPath('images.barrier'), 'barrier');
-        loadedImages.rare_enemy = await loadImage(getAssetPath('images.rare_enemy'), 'rare_enemy');
-        loadedImages.enemy_bullet = await loadImage(getAssetPath('images.enemy_bullet'), 'enemy_bullet');
-        loadedImages.background = await loadImage(getAssetPath('images.background'), 'background');
       }
 
       function drawBackground() {
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         if (loadedImages.background) {
           ctx.drawImage(loadedImages.background, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+          ctx.fillStyle = 'rgba(0,0,0,0.2)';
           ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         } else {
           const grad = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
@@ -1001,19 +1048,19 @@
 
       function drawPlayerFallback(x, y, w, h) {
         ctx.fillStyle = '#6ad7ff';
-        ctx.fillRect(x + 8, y + 12, w - 16, h - 12);
-        ctx.fillRect(x + w / 2 - 4, y, 8, 18);
-        ctx.fillRect(x, y + h - 8, 10, 8);
-        ctx.fillRect(x + w - 10, y + h - 8, 10, 8);
+        ctx.fillRect(x + 8, y + 18, w - 16, h - 16);
+        ctx.fillRect(x + w / 2 - 5, y + 2, 10, 22);
+        ctx.fillRect(x + 4, y + h - 10, 12, 10);
+        ctx.fillRect(x + w - 16, y + h - 10, 12, 10);
       }
 
       function drawEnemyFallback(x, y, w, h) {
         ctx.fillStyle = '#ff8fb1';
-        ctx.fillRect(x + 4, y + 4, w - 8, h - 10);
-        ctx.fillRect(x, y + 10, 6, 8);
-        ctx.fillRect(x + w - 6, y + 10, 6, 8);
-        ctx.fillRect(x + 8, y + h - 6, 5, 6);
-        ctx.fillRect(x + w - 13, y + h - 6, 5, 6);
+        ctx.fillRect(x + 4, y + 6, w - 8, h - 12);
+        ctx.fillRect(x, y + 12, 8, 10);
+        ctx.fillRect(x + w - 8, y + 12, 8, 10);
+        ctx.fillRect(x + 10, y + h - 7, 6, 7);
+        ctx.fillRect(x + w - 16, y + h - 7, 6, 7);
       }
 
       function drawBulletFallback(x, y, w, h, isEnemy = false) {
@@ -1025,15 +1072,15 @@
         const ratio = hp / maxHp;
         ctx.fillStyle = ratio > 0.6 ? '#9cff9c' : ratio > 0.3 ? '#ffe08c' : '#ff9797';
         ctx.fillRect(x, y, w, h);
-        ctx.clearRect(x + 8, y + 8, 10, 10);
-        ctx.clearRect(x + w - 18, y + 8, 10, 10);
+        ctx.clearRect(x + 10, y + 10, 12, 12);
+        ctx.clearRect(x + w - 22, y + 10, 12, 12);
       }
 
       function drawRareEnemyFallback(x, y, w, h) {
         ctx.fillStyle = '#ffd36b';
         ctx.fillRect(x + 8, y + 4, w - 16, h - 8);
-        ctx.fillRect(x, y + 10, 8, 8);
-        ctx.fillRect(x + w - 8, y + 10, 8, 8);
+        ctx.fillRect(x, y + 12, 8, 8);
+        ctx.fillRect(x + w - 8, y + 12, 8, 8);
       }
 
       function draw() {
@@ -1043,15 +1090,10 @@
         ctx.translate(shakeX, shakeY);
 
         drawBackground();
-
         drawImageOrFallback(loadedImages.player, drawPlayerFallback, state.player.x, state.player.y, state.player.w, state.player.h);
 
         for (const barrier of state.barriers) {
-          drawImageOrFallback(
-            loadedImages.barrier,
-            (x, y, w, h) => drawBarrierFallback(x, y, w, h, barrier.hp, barrier.maxHp),
-            barrier.x, barrier.y, barrier.w, barrier.h
-          );
+          drawImageOrFallback(loadedImages.barrier, (x, y, w, h) => drawBarrierFallback(x, y, w, h, barrier.hp, barrier.maxHp), barrier.x, barrier.y, barrier.w, barrier.h);
         }
 
         for (const enemy of state.enemies) {
@@ -1072,16 +1114,24 @@
         }
 
         for (const p of state.particles) {
-          const alpha = p.life / p.maxLife;
-          ctx.globalAlpha = alpha;
+          ctx.globalAlpha = p.life / p.maxLife;
           ctx.fillStyle = p.color;
           ctx.fillRect(p.x, p.y, p.size, p.size);
         }
         ctx.globalAlpha = 1;
 
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = 'bold 22px system-ui, sans-serif';
+        for (const popup of state.scorePopups) {
+          ctx.globalAlpha = popup.life / popup.maxLife;
+          ctx.fillStyle = popup.color;
+          ctx.fillText(popup.text, popup.x, popup.y);
+        }
+        ctx.globalAlpha = 1;
+
         ctx.strokeStyle = 'rgba(255,255,255,0.08)';
         ctx.strokeRect(1, 1, CANVAS_WIDTH - 2, CANVAS_HEIGHT - 2);
-
         ctx.restore();
 
         if (state.flashTime > 0) {
@@ -1104,39 +1154,6 @@
         state.player.x = clamp(x - state.player.w / 2, 8, CANVAS_WIDTH - state.player.w - 8);
       }
 
-      async function applyFileToTarget(file) {
-        const target = document.getElementById('assetTarget').value;
-        if (!target) return;
-        const isImage = target.startsWith('images.');
-        const isAudio = target.startsWith('sounds.');
-        if (isImage && !file.type.startsWith('image/')) {
-          assetStatus.innerHTML = '<span class="danger">画像スロットには画像ファイルを入れてください。</span>';
-          return;
-        }
-        if (isAudio && !file.type.startsWith('audio/')) {
-          assetStatus.innerHTML = '<span class="danger">音スロットには音ファイルを入れてください。</span>';
-          return;
-        }
-
-        const objectUrl = URL.createObjectURL(file);
-        state.assetOverrides[target] = objectUrl;
-        await refreshImages();
-        if (target === 'sounds.bgm' && state.running) playBgm();
-        assetStatus.innerHTML = `<span class="ok">${target}</span> を <strong>${file.name}</strong> に差し替えました。`;
-      }
-
-      function clearOverrides() {
-        for (const key of Object.keys(state.assetOverrides)) {
-          if (String(state.assetOverrides[key]).startsWith('blob:')) {
-            URL.revokeObjectURL(state.assetOverrides[key]);
-          }
-        }
-        state.assetOverrides = {};
-        refreshImages();
-        if (state.running) playBgm();
-        assetStatus.textContent = '差し替えを解除しました。JSON / CMS の設定値に戻っています。';
-      }
-
       function bindHoldButton(button, startFn, endFn = startFn) {
         const onStart = (event) => { event.preventDefault(); startFn(true); };
         const onEnd = (event) => { event.preventDefault(); endFn(false); };
@@ -1151,10 +1168,10 @@
         state.soundsConfig = await loadJSON('../data/sounds.json', defaultSounds);
         setTheme();
         pageTitle.textContent = state.config.ui.game_title || defaultConfig.ui.game_title;
-        pageLead.textContent = '画像と音は JSON / CMS で差し替え可能。ゲーム中はドラッグでも操作できます。';
         mobileControls.style.display = state.config.ui.show_mobile_controls ? '' : 'none';
         soundToggle.style.display = state.config.ui.allow_sound_toggle ? '' : 'none';
         updateSoundButton();
+        updateVolumeUi();
         await refreshImages();
         resetGame();
         requestAnimationFrame(frame);
@@ -1169,6 +1186,7 @@
         state.paused = false;
         state.running = true;
         hideOverlay();
+        playBgm();
       });
 
       document.getElementById('restartBtn').addEventListener('click', () => {
@@ -1179,26 +1197,31 @@
       soundToggle.addEventListener('click', () => {
         soundEnabled = !soundEnabled;
         updateSoundButton();
-        if (!soundEnabled) {
-          stopBgm();
-        } else if (state.running) {
-          playBgm();
-        }
+        if (!soundEnabled) stopBgm();
+        else if (state.running) playBgm();
+      });
+
+      bgmVolumeInput.addEventListener('input', (event) => {
+        state.bgmVolume = Number(event.target.value) / 100;
+        localStorage.setItem(STORAGE_BGM_KEY, String(state.bgmVolume));
+        updateVolumeUi();
+      });
+
+      seVolumeInput.addEventListener('input', (event) => {
+        state.seVolume = Number(event.target.value) / 100;
+        localStorage.setItem(STORAGE_SE_KEY, String(state.seVolume));
+        updateVolumeUi();
       });
 
       window.addEventListener('keydown', (event) => {
-        if (event.repeat) {
-          if (event.code === 'Space') event.preventDefault();
-        }
+        if (event.repeat && event.code === 'Space') event.preventDefault();
         if (event.code === 'ArrowLeft' || event.code === 'KeyA') state.keys.left = true;
         if (event.code === 'ArrowRight' || event.code === 'KeyD') state.keys.right = true;
         if (event.code === 'Space') {
           event.preventDefault();
           state.keys.shoot = true;
         }
-        if (event.code === 'Enter' && !state.running) {
-          startGame(false);
-        }
+        if (event.code === 'Enter' && !state.running) startGame(false);
       });
 
       window.addEventListener('keyup', (event) => {
@@ -1209,44 +1232,16 @@
 
       canvas.addEventListener('pointerdown', (event) => {
         setMoveFromPointer(event.clientX);
-        if (!state.running && !state.gameOver) {
-          startGame(false);
-        }
+        if (!state.running && !state.gameOver) startGame(false);
       });
 
       canvas.addEventListener('pointermove', (event) => {
-        if (event.buttons === 1 || event.pointerType === 'touch') {
-          setMoveFromPointer(event.clientX);
-        }
+        if (event.buttons === 1 || event.pointerType === 'touch') setMoveFromPointer(event.clientX);
       });
 
       bindHoldButton(document.getElementById('leftBtn'), (active) => { state.keys.left = active; });
       bindHoldButton(document.getElementById('rightBtn'), (active) => { state.keys.right = active; });
       bindHoldButton(document.getElementById('shootBtn'), (active) => { state.keys.shoot = active; });
-
-      const dropzone = document.getElementById('dropzone');
-      ;['dragenter', 'dragover'].forEach(type => {
-        dropzone.addEventListener(type, (event) => {
-          event.preventDefault();
-          dropzone.classList.add('active');
-        });
-      });
-      ;['dragleave', 'drop'].forEach(type => {
-        dropzone.addEventListener(type, (event) => {
-          event.preventDefault();
-          dropzone.classList.remove('active');
-        });
-      });
-      dropzone.addEventListener('drop', async (event) => {
-        const file = event.dataTransfer?.files?.[0];
-        if (file) await applyFileToTarget(file);
-      });
-      document.getElementById('assetFile').addEventListener('change', async (event) => {
-        const file = event.target.files?.[0];
-        if (file) await applyFileToTarget(file);
-        event.target.value = '';
-      });
-      document.getElementById('resetAssetOverrides').addEventListener('click', clearOverrides);
 
       document.addEventListener('visibilitychange', () => {
         if (document.hidden && state.running && !state.gameOver) {
