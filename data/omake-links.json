@@ -20,8 +20,8 @@
     },
     {
       "title": "MJSS インベーダー",
-      "description": "画像・音差し替え対応のエンドレスおまけシューティング",
-      "image": "",
+      "description": "おまけシューティング",
+      "image": "/images/uploads/Fearless.gif",
       "url": "games/invader.html",
       "type": "ミニゲーム",
       "badge": "NEW",
