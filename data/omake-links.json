@@ -3,7 +3,7 @@
     {
       "title": "虹守コウの絶対に勝たせないリバーシ",
       "description": "100万分の1でだけチートが失敗する理不尽リバーシ。勝ったら超褒められる。",
-      "image": "",
+      "image": "/images/uploads/Fearless (1).png",
       "url": "games/reversi.html",
       "type": "ミニゲーム",
       "badge": "NEW",
@@ -13,10 +13,8 @@
     {
       "title": "スタッフブログ",
       "description": "運営の裏話や小ネタ、お知らせなどを見られるブログ入口。",
-      "image": "",
       "url": "staff.html",
       "type": "ブログ",
-      "badge": "",
       "status": "public",
       "featured": false
     }
