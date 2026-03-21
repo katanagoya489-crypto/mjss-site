@@ -1,0 +1,41 @@
+{
+  "images": {
+    "player": "",
+    "enemy": "",
+    "bullet": "",
+    "barrier": "",
+    "rare_enemy": "",
+    "enemy_bullet": "",
+    "background": ""
+  },
+  "gameplay": {
+    "player_speed": 320,
+    "bullet_speed": 640,
+    "enemy_speed": 46,
+    "enemy_bullet_speed": 240,
+    "initial_lives": 3,
+    "barrier_hp": 7,
+    "wave_speed_step": 10,
+    "rare_enemy_spawn_rate": 0.22,
+    "rare_enemy_score": 250,
+    "enemy_score": 40,
+    "fire_cooldown_ms": 210,
+    "enemy_fire_interval_ms": 850,
+    "barrier_count": 4
+  },
+  "ui": {
+    "game_title": "MJSS インベーダー",
+    "start_message": "タップ / クリックで開始。PC は左右キー・A/D・スペース、スマホはボタンか横ドラッグで操作。",
+    "gameover_message": "GAME OVER",
+    "show_mobile_controls": true,
+    "allow_sound_toggle": true,
+    "enable_screen_shake": true,
+    "enable_hit_flash": true
+  },
+  "theme": {
+    "background_color": "#091321",
+    "accent_color": "#6ad7ff",
+    "text_color": "#ffffff",
+    "flash_color": "rgba(255,255,255,0.16)"
+  }
+}
