@@ -3,7 +3,7 @@
     {
       "title": "虹守コウの絶対に勝たせないリバーシ",
       "description": "100万分の1でだけチートが失敗する理不尽リバーシ。勝ったら超褒められる。",
-      "image": "/images/uploads/Fearless (1).png",
+      "image": "/images/uploads/Fierless (1).png",
       "url": "games/reversi.html",
       "type": "ミニゲーム",
       "badge": "NEW",
@@ -17,16 +17,16 @@
       "type": "ブログ",
       "status": "public",
       "featured": false
+    },
+    {
+      "title": "MJSS インベーダー",
+      "description": "画像・音差し替え対応のエンドレスおまけシューティング",
+      "image": "",
+      "url": "games/invader.html",
+      "type": "ミニゲーム",
+      "badge": "NEW",
+      "status": "public",
+      "featured": true
     }
- {
-  "title": "MJSS インベーダー",
-  "description": "画像・音差し替え対応のエンドレスおまけシューティング",
-  "image": "",
-  "url": "/games/invader.html",
-  "type": "ミニゲーム",
-  "badge": "NEW",
-  "status": "public",
-  "featured": true
-}
   ]
 }
