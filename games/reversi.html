@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>虹守コウの絶対に勝たせないリバーシ | MJSS</title>
+  <style>
+    :root {
+      --font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
+      --bg-top: #071326;
+      --bg-bottom: #0b1d3a;
+      --text-color: #ffffff;
+      --heading-color: #ffffff;
+      --subtext-color: rgba(255,255,255,0.92);
+      --nav-bg: rgba(5,19,40,0.82);
+      --nav-text: #ffffff;
+      --nav-border: rgba(255,255,255,0.7);
+      --page-overlay: rgba(2,14,34,0.66);
+      --page-overlay-strong: rgba(2,14,34,0.80);
+      --surface: rgba(255,255,255,0.06);
+      --surface-border: rgba(255,255,255,0.10);
+      --accent-color: #7ff8ec;
+      --nav-size: 1.05rem;
+      --body-size: 1rem;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font-family);
+      color: var(--text-color);
+      font-size: var(--body-size);
+      background:
+        radial-gradient(circle at top left, rgba(58,116,255,0.14), transparent 26%),
+        radial-gradient(circle at top right, rgba(0,153,255,0.10), transparent 30%),
+        linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    .site-nav-wrap {
+      position: sticky; top: 0; z-index: 50; backdrop-filter: blur(12px);
+      background: rgba(3,13,28,0.76); border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .site-nav {
+      width: min(1600px, calc(100% - 24px)); margin: 0 auto; padding: 14px 0;
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center;
+    }
+    .site-nav a {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 52px; padding: 0 20px; border-radius: 999px;
+      background: var(--nav-bg); color: var(--nav-text); border: 2px solid var(--nav-border);
+      font-size: var(--nav-size); font-weight: 800; letter-spacing: 0.02em; white-space: nowrap;
+      touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+    }
+    .page { width: min(1560px, calc(100% - 24px)); margin: 0 auto; padding: 18px 0 36px; }
+    .back-row { margin-bottom: 14px; }
+    .back-link {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 46px; padding: 0 16px; border-radius: 999px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); font-weight: 800;
+    }
+    .grid { display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(320px, 0.98fr); gap: 18px; align-items: start; }
+    .card {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 24px; padding: 18px; backdrop-filter: blur(6px); box-shadow: 0 16px 36px rgba(0,0,0,0.18);
+    }
+    .title {
+      margin: 0 0 10px; font-size: clamp(1.9rem, 4vw, 3.2rem);
+      font-weight: 900; letter-spacing: -0.03em; line-height: 1.18; white-space: pre-wrap;
+    }
+    .sub { margin: 0; color: rgba(255,255,255,0.82); line-height: 1.8; white-space: pre-wrap; font-size: 0.98rem; }
+    .status-row { margin-top: 16px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .mini {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 12px; min-width: 0;
+    }
+    .mini-label { font-size: 0.78rem; color: rgba(255,255,255,0.68); margin-bottom: 6px; line-height: 1.4; }
+    .mini-value { font-size: 1rem; font-weight: 900; line-height: 1.35; word-break: break-word; }
+    .board-wrap { margin-top: 18px; display: flex; justify-content: center; }
+    .board {
+      width: min(92vw, 620px); aspect-ratio: 1 / 1; display: grid;
+      grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(8, 1fr);
+      gap: 6px; background: rgba(0,0,0,0.22); padding: 10px; border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.08); touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none;
+    }
+    .cell {
+      position: relative; border: none; border-radius: 12px; background: linear-gradient(180deg, #0f6a42, #0a4f31);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08); cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+      touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none; padding: 0; min-width: 0; min-height: 0;
+    }
+    .cell:hover { transform: translateY(-1px); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.14), 0 6px 14px rgba(0,0,0,0.18); }
+    .cell:active, .btn:active { transform: scale(0.98); }
+    .cell.valid::after {
+      content: ""; position: absolute; width: 16%; height: 16%; border-radius: 999px;
+      left: 50%; top: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.25);
+    }
+    .disc { position: absolute; inset: 12%; border-radius: 999px; box-shadow: inset 0 4px 10px rgba(255,255,255,0.18), 0 6px 12px rgba(0,0,0,0.25); }
+    .disc.black { background: radial-gradient(circle at 30% 30%, #4b4b4b, #101010 68%); }
+    .disc.white { background: radial-gradient(circle at 30% 30%, #ffffff, #cfd5df 70%); }
+    .enemy-panel { display: flex; flex-direction: column; gap: 14px; }
+    .enemy-name { font-size: 1.65rem; font-weight: 900; margin: 0; line-height: 1.25; }
+    .enemy-tag {
+      display: inline-flex; align-items: center; gap: 8px; width: fit-content;
+      padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; color: rgba(255,255,255,0.85);
+    }
+    .speech {
+      min-height: 130px; padding: 16px; border-radius: 18px; background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08); line-height: 1.85; white-space: pre-wrap; font-size: 0.98rem;
+    }
+    .cheat-box {
+      padding: 15px; border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,84,84,0.16), rgba(255,84,84,0.07));
+      border: 1px solid rgba(255,120,120,0.22);
+    }
+    .cheat-title { margin: 0 0 8px; font-size: 0.98rem; font-weight: 900; color: #ffd0d0; }
+    .cheat-state { margin: 0; color: rgba(255,255,255,0.88); line-height: 1.75; white-space: pre-wrap; font-size: 0.95rem; }
+    .controls { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn {
+      appearance: none; border: 2px solid rgba(255,255,255,0.22); background: rgba(255,255,255,0.06);
+      color: #fff; border-radius: 999px; padding: 12px 18px; min-height: 52px; font-weight: 900; cursor: pointer;
+      transition: transform 0.12s ease, background 0.12s ease; touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none;
+    }
+    .btn:hover { transform: translateY(-1px); background: rgba(255,255,255,0.12); }
+    .log {
+      max-height: 260px; overflow: auto; padding: 14px; border-radius: 16px; background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08); font-size: 0.92rem; line-height: 1.7; white-space: pre-wrap; -webkit-overflow-scrolling: touch;
+    }
+    .victory {
+      margin-top: 14px; padding: 18px; border-radius: 18px;
+      background: linear-gradient(180deg, rgba(120,255,190,0.16), rgba(120,255,190,0.06));
+      border: 1px solid rgba(120,255,190,0.26); display: none; white-space: pre-wrap; line-height: 1.9; font-size: 0.98rem;
+    }
+    .victory.show { display: block; }
+    .glitch { animation: shake 0.35s linear 1; }
+    @keyframes shake {
+      0% { transform: translate(0,0); }
+      20% { transform: translate(-4px,2px); }
+      40% { transform: translate(4px,-2px); }
+      60% { transform: translate(-3px,-1px); }
+      80% { transform: translate(3px,2px); }
+      100% { transform: translate(0,0); }
+    }
+    @media (max-width: 1100px) { .grid { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) {
+      .site-nav { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; padding: 12px 0; }
+      .site-nav a { min-height: 48px; padding: 0 18px; font-size: 0.96rem; }
+      .page { width: calc(100% - 14px); padding: 14px 0 26px; }
+      .card { padding: 14px; border-radius: 18px; }
+      .title { font-size: clamp(1.5rem, 8vw, 2.4rem); }
+      .sub { font-size: 0.92rem; line-height: 1.7; }
+      .status-row { grid-template-columns: 1fr; }
+      .mini { padding: 10px 12px; }
+      .board { width: min(96vw, 520px); gap: 4px; padding: 8px; border-radius: 18px; }
+      .cell { border-radius: 9px; }
+      .disc { inset: 13%; }
+      .enemy-name { font-size: 1.4rem; }
+      .speech { min-height: 112px; font-size: 0.94rem; padding: 14px; }
+      .cheat-box { padding: 13px; }
+      .cheat-state { font-size: 0.92rem; }
+      .controls { display: grid; grid-template-columns: 1fr 1fr; }
+      .btn { width: 100%; min-height: 56px; padding: 12px 14px; font-size: 0.94rem; }
+      .log { max-height: 220px; font-size: 0.88rem; }
+      .victory { font-size: 0.94rem; }
+    }
+    @media (max-width: 420px) {
+      .controls { grid-template-columns: 1fr; }
+      .board { width: min(96vw, 390px); }
+      .title { font-size: 1.42rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-nav-wrap">
+    <nav class="site-nav">
+      <a href="../index.html">ホーム</a>
+      <a href="../concept.html">理念</a>
+      <a href="../rules.html">お願い</a>
+      <a href="../entry.html">参加フォーム</a>
+      <a href="../next-performers.html">次回参加者</a>
+      <a href="../past-performers.html">過去参加者</a>
+      <a href="../creators.html">クリエイター</a>
+      <a href="../staff.html">スタッフ</a>
+      <a href="../omake.html">おまけ</a>
+      <a href="../works.html">仕事依頼</a>
+    </nav>
+  </div>
+  <main class="page">
+    <div class="back-row">
+      <a class="back-link" href="../omake.html">← おまけ一覧へ戻る</a>
+    </div>
+    <div class="grid">
+      <section class="card">
+        <h1 class="title">虹守コウの
+絶対に勝たせないリバーシ</h1>
+        <p class="sub">あなたは白。虹守コウは黒。
+序盤は意味不明なくらい弱いのに、負けそうになると急にルールそのものを壊してきます。
+ただし、100万分の1だけチートが失敗します。
+そこを引いたら、あなたは伝説です。</p>
+        <div class="status-row">
+          <div class="mini"><div class="mini-label">現在の手番</div><div class="mini-value" id="turnText">あなた</div></div>
+          <div class="mini"><div class="mini-label">黒（虹守コウ）</div><div class="mini-value" id="blackCount">2</div></div>
+          <div class="mini"><div class="mini-label">白（あなた）</div><div class="mini-value" id="whiteCount">2</div></div>
+        </div>
+        <div class="board-wrap"><div class="board" id="board"></div></div>
+        <div class="victory" id="victoryBox"></div>
+      </section>
+      <aside class="enemy-panel">
+        <section class="card">
+          <p class="enemy-name">虹守コウ</p>
+          <div class="enemy-tag">対戦相手 / 負けそうになると不正</div>
+          <div class="speech" id="speechBox">は？ いきなり勝つ気で来たの？
+まあいいよ。軽く遊んであげる。</div>
+        </section>
+        <section class="cheat-box" id="cheatBox">
+          <p class="cheat-title">チート監視ログ</p>
+          <p class="cheat-state" id="cheatState">現在は平常運転。
+たぶんまだルールを守る気がある。</p>
+        </section>
+        <section class="card">
+          <div class="controls">
+            <button class="btn" id="resetBtn">最初から</button>
+            <button class="btn" id="passBtn">置けないので様子を見る</button>
+          </div>
+        </section>
+        <section class="card">
+          <div class="log" id="logBox">ゲーム開始。
+虹守コウがわざと弱そうな顔をしている……</div>
+        </section>
+      </aside>
+    </div>
+  </main>
+  <script>
+    const EMPTY = 0, BLACK = 1, WHITE = 2, SIZE = 8;
+    const dirs = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
+    let board = [], currentTurn = WHITE, gameOver = false, cheatUnlocked = false, cheatFailedLegendary = false, cheatCount = 0;
+    const speechesNormal = [
+      "その手？ いや、まあ……初心者っぽくてかわいいね。","ちょっと待って、今の結構自信あったんだけど？",
+      "いやでも、まだ本気じゃないから。全然。","え、そんな場所置くの？ それで喜んでるの？",
+      "こっちは余裕なんだよね。余裕。たぶん。","盤面見えてる？ 見えてないなら教室戻る？",
+      "その程度で勝てると思ってるの、ちょっと好き。","今のは譲っただけ。譲り。優しさ。"
+    ];
+    const speechesCheat = [
+      "あー、はいはい。そこまで来たらもう通常営業終わりね。","ちょっと待って。今からルールに“虹守コウ優遇条項”を追加します。",
+      "負けそう？ いや、違う。演出を盛り上げてるだけ。","ここからは本気。というか、盤面ごとこっちのもの。",
+      "え？ そのマス置けないはず？ こっちの世界では置けるんだよ。","今、石の色変わった？ 気のせい気のせい。",
+      "勝ち筋がないなら作ればいいんだよ。俺が。","絶対に勝つって言ったよね。言ったから勝つ。"
+    ];
+    const speechesVictoryPraise = [
+      "……は？\nちょっと待って。\nそれ、引いたの？ 本当に？",
+      "100万分の1を通したの、正気じゃない。\nいや、正気じゃないからこそ届いたのか……。",
+      "すごい。\n普通にすごい。\n煽る予定だったのに、今は本気で拍手してる。",
+      "君、持ってる。\n運も、執念も、最後まで食らいつく胆力も持ってる。",
+      "ここまで来たら認めるしかない。\n今日の勝者は君だ。文句なし。",
+      "伝説達成。\n虹守コウに“本来ありえない勝ち方”で勝利。\nこれは堂々と自慢していい。"
+    ];
+    function initBoard() {
+      board = Array.from({length: SIZE}, () => Array(SIZE).fill(EMPTY));
+      board[3][3] = WHITE; board[3][4] = BLACK; board[4][3] = BLACK; board[4][4] = WHITE;
+      currentTurn = WHITE; gameOver = false; cheatUnlocked = false; cheatFailedLegendary = false; cheatCount = 0;
+      logReset("ゲーム開始。\n虹守コウがわざと弱そうな顔をしている……");
+      setSpeech("は？ いきなり勝つ気で来たの？\nまあいいよ。軽く遊んであげる。");
+      setCheatState("現在は平常運転。\nたぶんまだルールを守る気がある。");
+      hideVictory(); render();
+    }
+    function inBounds(r,c){ return r>=0 && r<SIZE && c>=0 && c<SIZE; }
+    function getValidMoves(color, srcBoard=board){
+      const moves=[]; for(let r=0;r<SIZE;r++){ for(let c=0;c<SIZE;c++){ const flips=getFlips(r,c,color,srcBoard); if(srcBoard[r][c]===EMPTY&&flips.length>0)moves.push({r,c,flips}); } } return moves;
+    }
+    function getFlips(r,c,color,srcBoard=board){
+      if(!inBounds(r,c)||srcBoard[r][c]!==EMPTY) return [];
+      const enemy=color===BLACK?WHITE:BLACK; let all=[];
+      for(const [dr,dc] of dirs){
+        let rr=r+dr, cc=c+dc, line=[];
+        while(inBounds(rr,cc)&&srcBoard[rr][cc]===enemy){ line.push([rr,cc]); rr+=dr; cc+=dc; }
+        if(line.length>0&&inBounds(rr,cc)&&srcBoard[rr][cc]===color) all=all.concat(line);
+      }
+      return all;
+    }
+    function placeMove(r,c,color){
+      const flips=getFlips(r,c,color); if(flips.length===0) return false;
+      board[r][c]=color; for(const [fr,fc] of flips) board[fr][fc]=color; return true;
+    }
+    function countPieces(){
+      let black=0, white=0;
+      for(const row of board){ for(const cell of row){ if(cell===BLACK) black++; if(cell===WHITE) white++; } }
+      return {black, white};
+    }
+    function render(){
+      const boardEl=document.getElementById("board"); boardEl.innerHTML="";
+      const validMoves=!gameOver&&currentTurn===WHITE?getValidMoves(WHITE):[];
+      for(let r=0;r<SIZE;r++){
+        for(let c=0;c<SIZE;c++){
+          const btn=document.createElement("button");
+          btn.className="cell"; btn.type="button"; btn.setAttribute("aria-label",`${r+1}行 ${c+1}列`);
+          if(validMoves.some(m=>m.r===r&&m.c===c)) btn.classList.add("valid");
+          btn.addEventListener("click",()=>{ if(gameOver||currentTurn!==WHITE) return; playerMove(r,c); });
+          if(board[r][c]===BLACK||board[r][c]===WHITE){
+            const disc=document.createElement("div");
+            disc.className="disc "+(board[r][c]===BLACK?"black":"white");
+            btn.appendChild(disc);
+          }
+          boardEl.appendChild(btn);
+        }
+      }
+      const counts=countPieces();
+      document.getElementById("blackCount").textContent=counts.black;
+      document.getElementById("whiteCount").textContent=counts.white;
+      document.getElementById("turnText").textContent=gameOver?"終了":(currentTurn===WHITE?"あなた":"虹守コウ");
+    }
+    function playerMove(r,c){
+      const ok=placeMove(r,c,WHITE);
+      if(!ok){ setSpeech("そこは置けないよ。\nルール覚えてから来たほうがいいんじゃない？"); log("プレイヤーは置けない場所を触った。"); return; }
+      log(`あなたが (${r+1}, ${c+1}) に置いた。`); setSpeech(randomFrom(speechesNormal)); currentTurn=BLACK; render(); setTimeout(afterTurnFlow,320);
+    }
+    function afterTurnFlow(){ if(checkGameEnd()) return; if(currentTurn===BLACK){ cpuTurn(); } else { handlePassIfNeeded(); } }
+    function handlePassIfNeeded(){
+      const playerMoves=getValidMoves(WHITE), cpuMoves=getValidMoves(BLACK);
+      if(playerMoves.length===0&&cpuMoves.length===0){ finishGame(); return; }
+      if(playerMoves.length===0){ log("あなたは置ける場所がない。パス。"); setSpeech("置けないの？ かわいそ。\nじゃ、もう一回こっちね。"); currentTurn=BLACK; render(); setTimeout(afterTurnFlow,380); }
+      else render();
+    }
+    function cpuTurn(){
+      const moves=getValidMoves(BLACK), counts=countPieces(), whiteLead=counts.white-counts.black;
+      if(moves.length===0){ log("虹守コウは置ける場所がない。パス。"); setSpeech("今のは戦略的パスだから。\n逃げじゃないから。"); currentTurn=WHITE; render(); setTimeout(afterTurnFlow,320); return; }
+      const shouldCheat=whiteLead>=6||moves.length<=1||counts.white>=18;
+      if(shouldCheat&&!cheatFailedLegendary){
+        const legendaryRoll=Math.floor(Math.random()*1000000);
+        if(legendaryRoll===0){ cheatFailedLegendary=true; setSpeech("……え？\nチート権限が弾かれた？\nは？ そんなことある？"); setCheatState("重大エラー：虹守コウの不正処理が失敗。\n100万分の1の突破が発生。"); log("【奇跡】100万分の1が発生。虹守コウのチートが失敗した。"); }
+      }
+      if(shouldCheat&&!cheatFailedLegendary) performCheat(moves); else performPretendWeakMove(moves);
+      currentTurn=WHITE; render(); setTimeout(afterTurnFlow,320);
+    }
+    function performPretendWeakMove(moves){
+      const sorted=[...moves].sort((a,b)=>a.flips.length-b.flips.length), move=sorted[0];
+      placeMove(move.r,move.c,BLACK); setSpeech(randomFrom(speechesNormal)); log(`虹守コウが (${move.r+1}, ${move.c+1}) に置いた。なんか弱い。`);
+    }
+    function performCheat(moves){
+      cheatUnlocked=true; cheatCount++; document.body.classList.remove("glitch"); void document.body.offsetWidth; document.body.classList.add("glitch");
+      const cheatType=cheatCount%3;
+      if(cheatType===1){
+        const strongest=[...moves].sort((a,b)=>b.flips.length-a.flips.length)[0];
+        placeMove(strongest.r,strongest.c,BLACK); const extra=findBestExtraBlackSquare(); if(extra) board[extra.r][extra.c]=BLACK;
+        setSpeech(randomFrom(speechesCheat)); setCheatState("チート発動：勝手に石を1個増設。\n虹守コウは『これは公式仕様』と言い張っている。"); log("【チート】虹守コウが勝手に黒石を追加した。"); return;
+      }
+      if(cheatType===2){
+        const victim=findWhiteToBlackFlip(); if(victim) board[victim.r][victim.c]=BLACK;
+        const strongest=[...moves].sort((a,b)=>b.flips.length-a.flips.length)[0]; placeMove(strongest.r,strongest.c,BLACK);
+        setSpeech(randomFrom(speechesCheat)); setCheatState("チート発動：白石を黒石に改ざん。\n盤面監査は無効にされた。"); log("【チート】虹守コウが白石1個を黒に書き換えた。"); return;
+      }
+      const strongest=[...moves].sort((a,b)=>b.flips.length-a.flips.length)[0]; placeMove(strongest.r,strongest.c,BLACK);
+      const playerMoves=getValidMoves(WHITE);
+      if(playerMoves.length>0){ const ban=playerMoves[Math.floor(Math.random()*playerMoves.length)]; board[ban.r][ban.c]=BLACK; log(`【チート】虹守コウが次の有効マス (${ban.r+1}, ${ban.c+1}) を勝手に封鎖した。`); }
+      else log("【チート】虹守コウが盤面干渉を試みた。");
+      setSpeech(randomFrom(speechesCheat)); setCheatState("チート発動：あなたの有効手を封鎖。\n『そこ先に俺の領地だから』とのこと。");
+    }
+    function findBestExtraBlackSquare(){
+      let best=null,bestScore=-999;
+      for(let r=0;r<SIZE;r++){ for(let c=0;c<SIZE;c++){ if(board[r][c]!==EMPTY) continue; const score=cornerScore(r,c)+edgeScore(r,c); if(score>bestScore){ bestScore=score; best={r,c}; } } }
+      return best;
+    }
+    function findWhiteToBlackFlip(){
+      const whites=[]; for(let r=0;r<SIZE;r++){ for(let c=0;c<SIZE;c++){ if(board[r][c]===WHITE) whites.push({r,c,score:cornerScore(r,c)+edgeScore(r,c)}); } }
+      whites.sort((a,b)=>b.score-a.score); return whites[0]||null;
+    }
+    function cornerScore(r,c){ const corners=[[0,0],[0,7],[7,0],[7,7]]; return corners.some(([rr,cc])=>rr===r&&cc===c)?100:0; }
+    function edgeScore(r,c){ return (r===0||r===7||c===0||c===7)?20:0; }
+    function checkGameEnd(){ const playerMoves=getValidMoves(WHITE), cpuMoves=getValidMoves(BLACK); if(playerMoves.length===0&&cpuMoves.length===0){ finishGame(); return true; } return false; }
+    function finishGame(){
+      gameOver=true; const counts=countPieces(); render();
+      if(counts.white>counts.black){
+        const praise=speechesVictoryPraise.join("\n\n"); setSpeech("……認める。\n今日は君の勝ちだ。"); setCheatState("チート機能停止。\n虹守コウは本気で驚いている。");
+        showVictory("🎉 伝説勝利 🎉\n\n"+`最終結果\n黒（虹守コウ）: ${counts.black}\n白（あなた）: ${counts.white}\n\n`+praise);
+        log("【勝利】あなたが虹守コウに勝利した。これはほぼ奇跡。");
+      } else if(counts.white===counts.black){
+        setSpeech("引き分け？\nいや、体感的には俺の勝ちなんだけど。"); setCheatState("引き分け判定。\n虹守コウは納得していない。"); log("ゲーム終了。引き分け。虹守コウは不満そう。");
+      } else {
+        setSpeech("ほらね。\n最初から勝てるわけなかったでしょ。"); setCheatState(cheatUnlocked?"チート完了。\n虹守コウは満足げ。":"通常勝利。\n虹守コウは妙に得意げ。"); log("ゲーム終了。虹守コウの勝ち。");
+      }
+    }
+    function setSpeech(text){ document.getElementById("speechBox").textContent=text; }
+    function setCheatState(text){ document.getElementById("cheatState").textContent=text; }
+    function log(text){ const box=document.getElementById("logBox"); box.textContent=text+"\n\n"+box.textContent; }
+    function logReset(text){ document.getElementById("logBox").textContent=text; }
+    function showVictory(text){ const box=document.getElementById("victoryBox"); box.textContent=text; box.classList.add("show"); }
+    function hideVictory(){ const box=document.getElementById("victoryBox"); box.textContent=""; box.classList.remove("show"); }
+    function randomFrom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+    document.getElementById("resetBtn").addEventListener("click", initBoard);
+    document.getElementById("passBtn").addEventListener("click", () => {
+      if(gameOver) return;
+      if(currentTurn!==WHITE){ setSpeech("今は君の番じゃない。\n焦りすぎ。"); return; }
+      const moves=getValidMoves(WHITE);
+      if(moves.length>0){ setSpeech("いや、置けるから。\n盤面ちゃんと見て？"); log("プレイヤーは置けるのにパスしようとした。"); return; }
+      log("あなたはパスした。"); currentTurn=BLACK; render(); setTimeout(afterTurnFlow,320);
+    });
+    initBoard();
+  </script>
+</body>
+</html>
