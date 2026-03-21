@@ -1,12 +1,12 @@
 {
   "images": {
-    "player": "",
-    "enemy": "",
-    "bullet": "",
-    "barrier": "",
-    "rare_enemy": "",
-    "enemy_bullet": "",
-    "background": ""
+    "player": "/images/uploads/インベーダー実機.png",
+    "enemy": "/images/uploads/虹守コウ.png",
+    "bullet": "/images/uploads/インベーダー玉.png",
+    "barrier": "/images/uploads/インベーダーbaria.png",
+    "rare_enemy": "/images/uploads/かかぽんぽこ.gif",
+    "enemy_bullet": "/images/uploads/インベーダー敵玉.png",
+    "background": "/images/uploads/名称未設定のデザイン (76).png"
   },
   "gameplay": {
     "player_speed": 320,
@@ -18,10 +18,7 @@
     "wave_speed_step": 10,
     "rare_enemy_spawn_rate": 0.22,
     "rare_enemy_score": 250,
-    "enemy_score": 40,
-    "fire_cooldown_ms": 210,
-    "enemy_fire_interval_ms": 850,
-    "barrier_count": 4
+    "enemy_score": 40
   },
   "ui": {
     "game_title": "MJSS インベーダー",
