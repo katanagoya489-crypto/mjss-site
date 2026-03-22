@@ -1,0 +1,60 @@
+{
+  "page_title": "各種リンク",
+  "page_lead": "YouTube、Discord、SNS、参加フォームなど、MJSSの各種リンクをまとめて見られるページです。",
+  "panel_sub": "最新の案内や参加導線をまとめています。",
+  "footer_note": "リンク先は随時追加・更新されます。",
+  "hero_points": [
+    "YouTube",
+    "Discord",
+    "X",
+    "参加フォーム",
+    "お問い合わせ"
+  ],
+  "items": [
+    {
+      "title": "YouTube",
+      "description": "配信やアーカイブはこちら。",
+      "url": "",
+      "badge": "VIDEO",
+      "icon": "▶",
+      "accent": "rgba(255,80,80,0.20)",
+      "note": "動画・配信"
+    },
+    {
+      "title": "Discord Server",
+      "description": "コミュニティ参加やお知らせ確認はこちら。",
+      "url": "",
+      "badge": "COMMUNITY",
+      "icon": "◎",
+      "accent": "rgba(114,137,218,0.22)",
+      "note": "サーバー招待"
+    },
+    {
+      "title": "X",
+      "description": "最新情報や更新案内はこちら。",
+      "url": "",
+      "badge": "SOCIAL",
+      "icon": "X",
+      "accent": "rgba(118,214,255,0.18)",
+      "note": "SNS"
+    },
+    {
+      "title": "参加フォーム",
+      "description": "出演希望や参加希望はこちら。",
+      "url": "/entry.html",
+      "badge": "ENTRY",
+      "icon": "＋",
+      "accent": "rgba(118,214,255,0.18)",
+      "note": "応募"
+    },
+    {
+      "title": "お問い合わせ",
+      "description": "出演依頼・制作依頼・コラボ相談はこちら。",
+      "url": "/contact.html",
+      "badge": "CONTACT",
+      "icon": "✉",
+      "accent": "rgba(118,214,255,0.18)",
+      "note": "連絡"
+    }
+  ]
+}
