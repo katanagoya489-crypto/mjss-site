@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>各種リンク | MJSS</title>
+  <meta name="description" content="MJSSの各種リンク一覧です。" />
+  <style>
+    :root{
+      --bg1:#091321;
+      --bg2:#060c16;
+      --panel:rgba(255,255,255,0.08);
+      --panel-strong:rgba(255,255,255,0.12);
+      --border:rgba(255,255,255,0.16);
+      --text:#ffffff;
+      --muted:rgba(255,255,255,0.72);
+      --accent:#76d6ff;
+      --shadow:0 16px 40px rgba(0,0,0,0.28);
+      --radius:22px;
+      --maxw:1180px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","Yu Gothic UI",sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(118,214,255,0.18), transparent 30%),
+        linear-gradient(180deg,var(--bg1),var(--bg2));
+    }
+    body.has-page-bg::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:
+        linear-gradient(180deg, rgba(8,17,31,.78), rgba(6,12,22,.92)),
+        var(--page-bg-image) center / cover no-repeat;
+      z-index:-2;
+      pointer-events:none;
+    }
+    body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(118,214,255,.08), transparent 24%),
+        radial-gradient(circle at 80% 0%, rgba(186,118,255,.10), transparent 28%);
+      z-index:-1;
+      pointer-events:none;
+    }
+    a{text-decoration:none;color:var(--text)}
+    .page{width:min(100%,var(--maxw));margin:0 auto;padding:18px 16px 48px}
+    .topbar,.hero,.panel,.link-card{
+      border:1px solid var(--border);
+      background:var(--panel);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(12px);
+    }
+    .topbar{
+      display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+      padding:14px 16px;border-radius:20px;margin-bottom:18px
+    }
+    .brand{display:flex;align-items:center;gap:12px;min-width:0}
+    .brand-title{font-size:1.1rem;font-weight:900;white-space:nowrap}
+    .nav{display:flex;gap:10px;flex-wrap:wrap}
+    .nav-link{
+      display:inline-flex;align-items:center;justify-content:center;
+      min-height:44px;padding:0 16px;border-radius:14px;
+      border:1px solid var(--border);background:rgba(255,255,255,0.08);
+      font-weight:800
+    }
+    .nav-link:hover{background:rgba(255,255,255,0.12)}
+    .hero{
+      border-radius:28px;
+      padding:30px 24px;
+      margin-bottom:18px;
+      overflow:hidden;
+      position:relative;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;right:-60px;bottom:-80px;width:260px;height:260px;border-radius:50%;
+      background:radial-gradient(circle, rgba(118,214,255,.18), transparent 66%);
+      pointer-events:none;
+    }
+    .eyebrow{
+      display:inline-flex;align-items:center;justify-content:center;
+      min-height:30px;padding:0 12px;border-radius:999px;
+      background:rgba(118,214,255,0.12);color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+    h1{margin:16px 0 10px;font-size:clamp(30px,5vw,52px);line-height:1.08}
+    .lead{margin:0;color:var(--muted);line-height:1.9;font-size:15px;max-width:60em}
+    .hero-points{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .hero-chip{
+      display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:0 12px;border-radius:999px;
+      border:1px solid var(--border);background:rgba(255,255,255,0.06);font-size:12px;font-weight:800;color:var(--text)
+    }
+    .panel{
+      border-radius:24px;
+      padding:22px;
+    }
+    .panel-head{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+    .panel-title{margin:0;font-size:1.6rem}
+    .panel-sub{margin:0;color:var(--muted);line-height:1.8;font-size:14px}
+    .links-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:16px;
+    }
+    .link-card{
+      display:flex;flex-direction:column;gap:14px;
+      padding:18px;border-radius:22px;min-height:220px;
+      position:relative;overflow:hidden
+    }
+    .link-card::before{
+      content:"";
+      position:absolute;inset:auto -30px -50px auto;width:160px;height:160px;border-radius:50%;
+      background:radial-gradient(circle, var(--card-accent, rgba(118,214,255,.14)), transparent 65%);
+      pointer-events:none;
+    }
+    .card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+    .badge{
+      display:inline-flex;align-items:center;justify-content:center;
+      min-height:28px;padding:0 10px;border-radius:999px;
+      background:rgba(255,255,255,0.08);border:1px solid var(--border);
+      font-size:11px;font-weight:900;letter-spacing:.05em;color:var(--accent)
+    }
+    .icon-wrap{
+      width:56px;height:56px;border-radius:16px;border:1px solid var(--border);
+      display:grid;place-items:center;background:rgba(255,255,255,0.06);
+      font-size:24px;font-weight:900;flex:0 0 auto;
+    }
+    .card-body{display:grid;gap:8px}
+    .card-title{margin:0;font-size:1.4rem;font-weight:900}
+    .card-desc{margin:0;color:var(--muted);line-height:1.8;font-size:14px}
+    .link-meta{display:flex;gap:8px;flex-wrap:wrap;color:rgba(255,255,255,.66);font-size:12px;font-weight:700}
+    .card-actions{margin-top:auto;display:flex;gap:10px;flex-wrap:wrap}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 16px;border-radius:14px;
+      border:1px solid var(--border);background:rgba(255,255,255,0.08);font-weight:800
+    }
+    .btn.primary{
+      background:linear-gradient(135deg,#8ae2ff 0%,#61bfff 100%);
+      color:#07111d;border:none
+    }
+    .empty{
+      border:1px dashed rgba(255,255,255,.18);
+      border-radius:18px;padding:24px;color:var(--muted);text-align:center
+    }
+    .footer{
+      margin-top:24px;text-align:center;color:rgba(255,255,255,.62);font-size:12px;line-height:1.8
+    }
+    @media (max-width: 980px){
+      .links-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media (max-width: 640px){
+      .links-grid{grid-template-columns:1fr}
+      .hero{padding:26px 18px}
+      .panel{padding:18px}
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-title" id="brandTitle">MJSS</div>
+      </div>
+      <nav class="nav">
+        <a class="nav-link" href="/index.html">ホームへ</a>
+        <a class="nav-link" href="/contact.html">お問い合わせ</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <span class="eyebrow">Links</span>
+      <h1 id="pageTitle">各種リンク</h1>
+      <p class="lead" id="pageLead">YouTube、Discord、SNS、参加フォームなど、MJSSの各種リンクをまとめて見られるページです。</p>
+      <div class="hero-points" id="heroPoints"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h2 class="panel-title">リンク一覧</h2>
+          <p class="panel-sub" id="panelSub">最新の案内や参加導線をまとめています。</p>
+        </div>
+      </div>
+      <div class="links-grid" id="linksGrid"></div>
+      <div class="footer" id="footerNote">リンク先は随時追加・更新されます。</div>
+    </section>
+  </div>
+
+  <script>
+    const DEFAULT_CONFIG = {
+      page_title: "各種リンク",
+      page_lead: "YouTube、Discord、SNS、参加フォームなど、MJSSの各種リンクをまとめて見られるページです。",
+      panel_sub: "最新の案内や参加導線をまとめています。",
+      footer_note: "リンク先は随時追加・更新されます。",
+      hero_points: ["YouTube", "Discord", "X", "参加フォーム", "お問い合わせ"],
+      items: [
+        {
+          title: "YouTube",
+          description: "配信やアーカイブはこちら。",
+          url: "",
+          badge: "VIDEO",
+          icon: "▶",
+          accent: "rgba(255,80,80,0.20)",
+          note: "動画・配信"
+        },
+        {
+          title: "Discord Server",
+          description: "コミュニティ参加やお知らせ確認はこちら。",
+          url: "",
+          badge: "COMMUNITY",
+          icon: "◎",
+          accent: "rgba(114,137,218,0.22)",
+          note: "サーバー招待"
+        },
+        {
+          title: "X",
+          description: "最新情報や更新案内はこちら。",
+          url: "",
+          badge: "SOCIAL",
+          icon: "X",
+          accent: "rgba(118,214,255,0.18)",
+          note: "SNS"
+        },
+        {
+          title: "参加フォーム",
+          description: "出演希望や参加希望はこちら。",
+          url: "/entry.html",
+          badge: "ENTRY",
+          icon: "＋",
+          accent: "rgba(118,214,255,0.18)",
+          note: "応募"
+        },
+        {
+          title: "お問い合わせ",
+          description: "出演依頼・制作依頼・コラボ相談はこちら。",
+          url: "/contact.html",
+          badge: "CONTACT",
+          icon: "✉",
+          accent: "rgba(118,214,255,0.18)",
+          note: "連絡"
+        }
+      ]
+    };
+
+    function escapeHtml(text){
+      return String(text ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#39;");
+    }
+
+    function buildImageUrl(path){
+      if(!path) return "";
+      if(/^https?:\/\//.test(path)) return path;
+      if(path.startsWith("/")) return path;
+      return "/" + path.replace(/^\.\//, "");
+    }
+
+    async function loadPage(){
+      let site = {};
+      let config = { ...DEFAULT_CONFIG };
+
+      try{
+        const siteRes = await fetch("/data/site.json", { cache: "no-store" });
+        if(siteRes.ok) site = await siteRes.json();
+      }catch(e){ console.warn(e); }
+
+      try{
+        const confRes = await fetch("/data/links-page.json", { cache: "no-store" });
+        if(confRes.ok){
+          const json = await confRes.json();
+          config = {
+            ...DEFAULT_CONFIG,
+            ...json,
+            hero_points: Array.isArray(json.hero_points) && json.hero_points.length ? json.hero_points : DEFAULT_CONFIG.hero_points,
+            items: Array.isArray(json.items) && json.items.length ? json.items : DEFAULT_CONFIG.items
+          };
+        }
+      }catch(e){ console.warn(e); }
+
+      const bg = buildImageUrl(site.hero_bg_image || site.page_bg_image || "");
+      if(bg){
+        document.body.classList.add("has-page-bg");
+        document.documentElement.style.setProperty("--page-bg-image", `url('${bg}')`);
+      }
+
+      document.title = (config.page_title || "各種リンク") + " | MJSS";
+      document.getElementById("brandTitle").textContent = site.site_title || "MJSS";
+      document.getElementById("pageTitle").textContent = config.page_title || "各種リンク";
+      document.getElementById("pageLead").textContent = config.page_lead || "";
+      document.getElementById("panelSub").textContent = config.panel_sub || "";
+      document.getElementById("footerNote").textContent = config.footer_note || "";
+
+      const points = document.getElementById("heroPoints");
+      points.innerHTML = (config.hero_points || []).map(item => `<span class="hero-chip">${escapeHtml(item)}</span>`).join("");
+
+      const grid = document.getElementById("linksGrid");
+      const items = (config.items || []).filter(item => item && item.title);
+
+      if(!items.length){
+        grid.innerHTML = '<div class="empty">まだリンクがありません。</div>';
+        return;
+      }
+
+      grid.innerHTML = items.map(item => {
+        const title = escapeHtml(item.title || "");
+        const desc = escapeHtml(item.description || "");
+        const url = escapeHtml(item.url || "");
+        const badge = escapeHtml(item.badge || "LINK");
+        const icon = escapeHtml(item.icon || "↗");
+        const note = escapeHtml(item.note || "");
+        const accent = item.accent || "rgba(118,214,255,0.18)";
+        const disabled = !url;
+        return `
+          <article class="link-card" style="--card-accent:${accent}">
+            <div class="card-head">
+              <div class="icon-wrap">${icon}</div>
+              <span class="badge">${badge}</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">${title}</h3>
+              <p class="card-desc">${desc}</p>
+              ${note ? `<div class="link-meta"><span>${note}</span></div>` : ""}
+            </div>
+            <div class="card-actions">
+              ${disabled
+                ? `<span class="btn" aria-disabled="true">準備中</span>`
+                : `<a class="btn primary" href="${url}" target="${/^https?:\/\//.test(url) ? "_blank" : "_self"}" rel="noopener noreferrer">開く</a>`
+              }
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    loadPage();
+  </script>
+</body>
+</html>
